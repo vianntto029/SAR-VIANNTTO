@@ -4,28 +4,10 @@ Sistema de registro de asistencia por codigo QR para el Programa ACAR Sabatino.
 
 ---
 
-## Configuracion
-
-### 1. Firebase
-
-Crea un proyecto en [console.firebase.google.com](https://console.firebase.google.com):
-
-1. Build → Realtime Database → Create Database (test mode)
-2. Project Settings → Configuración general → Copiar `firebaseConfig`
-3. Reemplazar los valores en `src/firebase.js`
-
-### 2. Vercel
-
-1. Subir este código a GitHub
-2. Importar en [vercel.com](https://vercel.com)
-3. Vercel hace deploy automáticamente
-
----
-
 ## Acceso
 
-- **App:** `https://tu-proyecto.vercel.app/`
-- **Admin:** `https://tu-proyecto.vercel.app/login`
+- **App:** https://acar-asistencia.vercel.app/
+- **Admin:** https://acar-asistencia.vercel.app/login
 - **Contrasena:** `acar2026`
 
 ---
@@ -33,7 +15,7 @@ Crea un proyecto en [console.firebase.google.com](https://console.firebase.googl
 ## Campos del registro
 
 - Nombre del joven
-- Cedula (evita duplicados el mismo dia)
+- Numero de Cedula (evita duplicados el mismo dia)
 - Seccion / Grupo
 - Nombre del representante
 - Materia (fija desde el QR)
@@ -46,12 +28,22 @@ Crea un proyecto en [console.firebase.google.com](https://console.firebase.googl
 - Evita registro duplicado (misma cedula + misma fecha)
 - Exportacion a Excel con una hoja por materia
 - Panel docente con tabla en tiempo real
+- Status flotante debajo de la lista del dia
 
 ---
 
-## Para agregar tu logo
+## Paleta de colores
 
-Reemplazar `public/favicon.svg` con tu logo de ACAR (svg recomendado).
+| Color | Hex |
+|-------|-----|
+| Blanco oseo | #FFFFFF |
+| Gris azulado claro | #E9EEF3 |
+| Gris azulado medio | #CCD9E1 |
+| Azul grisaceo | #ACC2CF |
+| Azul gris | #8EABC0 |
+| Azul medio | #7197AE |
+| Azul profundo | #5B84A1 |
+| Azul oscuro | #417490 |
 
 ---
 
@@ -62,3 +54,9 @@ npm install          # Instalar dependencias
 npm run dev         # Desarrollo
 npm run build       # Produccion
 ```
+
+---
+
+## Documentacion adicional
+
+Ver `BITACORA.md` para historial completo de desarrollo, arquitectura y decisiones tecnicas.
