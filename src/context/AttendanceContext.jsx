@@ -58,7 +58,6 @@ export function AttendanceProvider({ children }) {
   useEffect(() => {
     const q = query(
       collection(db, 'institutos', institutoActivo, 'attendance'),
-      orderBy('date', 'desc'),
       orderBy('time', 'desc')
     )
     const unsub = onSnapshot(q, (snap) => {
