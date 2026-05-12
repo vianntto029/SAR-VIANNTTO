@@ -28,15 +28,15 @@ body {
   grid-template-columns: minmax(0, 1fr) 300px 240px;
   gap: 24px;
   align-items: stretch;
-  color: #f8fafc;
+  color: #CCD9E1;
   background:
-    linear-gradient(135deg, rgba(29, 78, 216, 0.92), rgba(30, 58, 138, 0.97)),
+    linear-gradient(135deg, rgba(65, 116, 144, 0.9), rgba(91, 132, 161, 0.95)),
     url('/bg-hero.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   padding: 34px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.16);
+  box-shadow: 0 20px 45px rgba(65, 116, 144, 0.2);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -105,7 +105,20 @@ p { margin: 0; }
 .attendance-row-header,
 .list-panel,
 .materias-panel {
-  border: 1px solid #d9e2ea;
+  border: 1px solid #ACC2CF;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(65, 116, 144, 0.08);
+  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.qr-panel,
+.attendance-form,
+.attendance-row,
+.attendance-row-header,
+.list-panel,
+.materias-panel {
+  border: 1px solid #ACC2CF;
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
@@ -143,7 +156,7 @@ p { margin: 0; }
 
 .materias-panel {
   background: #ffffff;
-  border: 1px solid #d9e2ea;
+  border: 1px solid #ACC2CF;
   border-radius: 12px;
   padding: 18px;
   display: flex;
@@ -175,7 +188,7 @@ p { margin: 0; }
   flex: 1;
   min-width: 0;
   padding: 9px 12px;
-  border: 1px solid #d9e2ea;
+  border: 1px solid #ACC2CF;
   border-radius: 8px;
   font-size: 13px;
   font-family: 'Sora', sans-serif;
@@ -238,7 +251,7 @@ p { margin: 0; }
   min-width: 0;
   text-align: left;
   padding: 9px 12px;
-  background: #f1f5f9;
+  background: #E9EEF3;
   border: 1px solid transparent !important;
   border-radius: 8px;
   cursor: pointer;
@@ -262,14 +275,14 @@ p { margin: 0; }
 }
 
 .materia-btn:hover:not(.active) {
-  background: #e2e8f0;
+  background: #CCD9E1;
   transform: translateX(2px);
 }
 
 .delete-materia {
   padding: 6px !important;
   background: none !important;
-  color: #ef4444 !important;
+  color: #8EABC0 !important;
   border: none !important;
   cursor: pointer;
   flex-shrink: 0;
@@ -277,7 +290,7 @@ p { margin: 0; }
 }
 
 .delete-materia:hover {
-  background: #fee2e2 !important;
+  background: #E9EEF3 !important;
   transform: scale(1.15) !important;
 }
 
@@ -299,7 +312,7 @@ p { margin: 0; }
   align-items: center;
   gap: 6px;
   padding: 9px 14px !important;
-  border: 1px solid #cbd5e1 !important;
+  border: 1px solid #7197AE !important;
   border-radius: 8px !important;
   background: #417490 !important;
   color: #fff !important;
@@ -327,9 +340,9 @@ p { margin: 0; }
   gap: 12px;
   padding: 40px 22px;
   color: #94a3b8;
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed #7197AE;
   border-radius: 12px;
-  background: #f8fafc;
+  background: #E9EEF3;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
@@ -354,7 +367,7 @@ p { margin: 0; }
 .toolbar label {
   min-height: 42px;
   padding: 0 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #7197AE;
   border-radius: 10px;
   background: #ffffff;
   color: #334155;
@@ -369,7 +382,7 @@ p { margin: 0; }
 }
 
 input, select {
-  border: 1px solid #cbd5e1;
+  border: 1px solid #7197AE;
   border-radius: 8px;
   background: #ffffff;
   color: #417490;
@@ -392,7 +405,7 @@ input:focus, select:focus {
 
 button, .primary {
   min-height: 42px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #7197AE;
   border-radius: 10px;
   padding: 0 16px;
   background: #ffffff;
@@ -492,7 +505,7 @@ button:disabled {
   gap: 16px;
   align-items: center;
   padding: 22px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #CCD9E1;
 }
 
 .list-title div { display: flex; flex-direction: column; gap: 4px; }
@@ -513,13 +526,13 @@ table {
 
 th, td {
   padding: 14px 18px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #CCD9E1;
   white-space: nowrap;
   transition: background 0.2s ease;
 }
 
 th {
-  background: #f8fafc;
+  background: #E9EEF3;
   color: #475569;
   font-size: 12px;
   font-weight: 850;
@@ -533,7 +546,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: #f0f7ff;
+  background: #E9EEF3;
   transform: translateX(2px);
 }
 
@@ -549,7 +562,7 @@ tbody tr:hover {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid #d9e2ea;
+  border: 1px solid #ACC2CF;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
   color: #417490;
@@ -1038,7 +1051,7 @@ tbody tr:hover {
 
 .instituto-bar select {
   padding: 8px 12px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #7197AE;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
@@ -1063,7 +1076,7 @@ tbody tr:hover {
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #7197AE;
   border-radius: 10px;
   background: #ffffff;
   color: #64748b;
