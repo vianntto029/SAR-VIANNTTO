@@ -12,7 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 30%, #dbeafe 50%, #3b82f6 75%, #1D4ED8 100%);
+  background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 20%, #BAE6FD 40%, #7DD3FC 60%, #38BDF8 80%, #0EA5E9 100%);
 }
 
 .app-shell {
@@ -998,21 +998,23 @@ tbody tr:hover {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 40px;
-  margin-bottom: 20px;
+  gap: 24px;
+  margin-bottom: 16px;
 }
 
 .logo-header img {
-  height: auto;
+  width: auto;
   display: block;
 }
 
 .logo-header .fundacion-logo {
-  height: 160px;
+  width: 140px;
+  height: auto;
 }
 
 .logo-header .programa-logo {
-  height: 160px;
+  width: 180px;
+  height: auto;
 }
 
 .admin-header {
