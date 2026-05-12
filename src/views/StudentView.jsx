@@ -34,11 +34,11 @@ export default function StudentView() {
   if (!materiaParam) {
     return (
       <main className="student-view-glass">
-        <div className="logo-header">
-          <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
-          <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
-        </div>
         <div className="student-form-container glass-fade-in">
+          <div className="logo-header">
+            <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
+            <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
+          </div>
           <div className="student-brand">
             <UserCheck size={20} />
             <span>{institutoNombre}</span>
@@ -86,92 +86,94 @@ export default function StudentView() {
 
 return (
     <main className="student-view-glass">
-      <div className="logo-header">
-        <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
-        <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
-      </div>
-      {!registered ? (
-        <div className="student-form-container glass-fade-in">
-          <div className="student-brand">
-            <UserCheck size={20} />
-            <span>{institutoNombre}</span>
-          </div>
-          <div className="student-materia-header">
-            {materiaParam}
-          </div>
-          <h1>Registro de Asistencia</h1>
-          <div className="student-form-divider" />
-
-          <form className="student-form-glass" onSubmit={handleSubmit}>
-            <label>
-              Nombre del joven
-              <input
-                value={form.name}
-                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                placeholder="Ej. Juan Perez"
-                required
-              />
-            </label>
-            <label>
-              Cedula
-              <input
-                value={form.nationalId}
-                onChange={(e) => setForm((f) => ({ ...f, nationalId: e.target.value }))}
-                placeholder="Ej. V-12345678"
-                required
-              />
-            </label>
-            <label>
-              Seccion / Grupo
-              <input
-                value={form.seccion}
-                onChange={(e) => setForm((f) => ({ ...f, seccion: e.target.value }))}
-                placeholder="Ej. Sabatino A"
-                required
-              />
-            </label>
-            <div className="representante-badge">
-              <UserCheck size={14} />
-              Datos del Representante
+      <div className="student-form-container glass-fade-in">
+        <div className="logo-header">
+          <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
+          <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
+        </div>
+        {!registered ? (
+          <div>
+            <div className="student-brand">
+              <UserCheck size={20} />
+              <span>{institutoNombre}</span>
             </div>
-            <label>
-              Nombre del representante
-              <input
-                value={form.representante}
-                onChange={(e) => setForm((f) => ({ ...f, representante: e.target.value }))}
-                placeholder="Ej. Maria Perez"
-              />
-            </label>
-            <button className="primary" type="submit">
-              <Check size={18} />
-              Registrar asistencia
-            </button>
-            {status && (
-              <div className={status.includes('ya fue') ? 'duplicate-error' : 'status'}>
-                {status}
-              </div>
-            )}
-          </form>
+            <div className="student-materia-header">
+              {materiaParam}
+            </div>
+            <h1>Registro de Asistencia</h1>
+            <div className="student-form-divider" />
 
-          <div className="student-footer">
-            <a href="/login" className="admin-link">Panel administrativo</a>
+            <form className="student-form-glass" onSubmit={handleSubmit}>
+              <label>
+                Nombre del joven
+                <input
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  placeholder="Ej. Juan Perez"
+                  required
+                />
+              </label>
+              <label>
+                Cedula
+                <input
+                  value={form.nationalId}
+                  onChange={(e) => setForm((f) => ({ ...f, nationalId: e.target.value }))}
+                  placeholder="Ej. V-12345678"
+                  required
+                />
+              </label>
+              <label>
+                Seccion / Grupo
+                <input
+                  value={form.seccion}
+                  onChange={(e) => setForm((f) => ({ ...f, seccion: e.target.value }))}
+                  placeholder="Ej. Sabatino A"
+                  required
+                />
+              </label>
+              <div className="representante-badge">
+                <UserCheck size={14} />
+                Datos del Representante
+              </div>
+              <label>
+                Nombre del representante
+                <input
+                  value={form.representante}
+                  onChange={(e) => setForm((f) => ({ ...f, representante: e.target.value }))}
+                  placeholder="Ej. Maria Perez"
+                />
+              </label>
+              <button className="primary" type="submit">
+                <Check size={18} />
+                Registrar asistencia
+              </button>
+              {status && (
+                <div className={status.includes('ya fue') ? 'duplicate-error' : 'status'}>
+                  {status}
+                </div>
+              )}
+            </form>
+
+            <div className="student-footer">
+              <a href="/login" className="admin-link">Panel administrativo</a>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className={`success-card-glass ${showSuccess ? 'glass-scale-in' : ''}`}>
-          <div className="success-icon-glass">
-            <Check size={48} />
+        ) : (
+          <div className={`success-card-glass ${showSuccess ? 'glass-scale-in' : ''}`}>
+            <div className="success-icon-glass">
+              <Check size={48} />
+            </div>
+            <div className="success-check-circle" />
+            <h1>Registrado!</h1>
+            <p className="success-name-glass">{registeredName}</p>
+            <p className="success-message-glass">Tu asistencia fue registrada exitosamente.</p>
+            <div className="success-badge-glass">
+              <span className="success-label">Codigo</span>
+              <span className="success-code-glass">{code}</span>
+            </div>
           </div>
-          <div className="success-check-circle" />
-          <h1>Registrado!</h1>
-          <p className="success-name-glass">{registeredName}</p>
-          <p className="success-message-glass">Tu asistencia fue registrada exitosamente.</p>
-          <div className="success-badge-glass">
-            <span className="success-label">Codigo</span>
-            <span className="success-code-glass">{code}</span>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </main>
   )
 }

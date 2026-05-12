@@ -580,7 +580,7 @@ tbody tr:hover {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 24px 24px;
+  padding: 60px 24px 24px;
   overflow-y: auto;
 }
 
@@ -988,13 +988,18 @@ tbody tr:hover {
   margin: 0 auto;
 }
 
+.admin-form-area {
+  display: flex;
+  flex-direction: column;
+}
+
 .logo-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 40px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .logo-header img {
@@ -1003,11 +1008,11 @@ tbody tr:hover {
 }
 
 .logo-header .fundacion-logo {
-  height: 100px;
+  height: 120px;
 }
 
 .logo-header .programa-logo {
-  height: 100px;
+  height: 120px;
 }
 
 .admin-header {
