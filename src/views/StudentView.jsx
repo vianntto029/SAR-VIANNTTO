@@ -34,6 +34,10 @@ export default function StudentView() {
   if (!materiaParam) {
     return (
       <main className="student-view-glass">
+        <div className="logo-header">
+          <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
+          <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
+        </div>
         <div className="student-form-container glass-fade-in">
           <div className="student-brand">
             <UserCheck size={20} />
@@ -84,6 +88,10 @@ export default function StudentView() {
     <main className="student-view-glass">
       {!registered ? (
         <div className="student-form-container glass-fade-in">
+          <div className="logo-header">
+            <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
+            <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
+          </div>
           <div className="student-brand">
             <UserCheck size={20} />
             <span>{institutoNombre}</span>

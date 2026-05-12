@@ -24,7 +24,7 @@ export default function LoginView() {
   return (
     <main className="login-view">
       <div className="logo-header">
-        <img src="/ANAGRAMA FUNDACION.png" alt="Anagrama Fundacion" className="fundacion-logo" />
+        <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
         <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
       </div>
       <div className="login-glass">

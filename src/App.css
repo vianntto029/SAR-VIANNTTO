@@ -11,8 +11,8 @@ body {
   font-family: 'Sora', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0B1E3D;
   min-height: 100vh;
+  background: linear-gradient(180deg, #f0e8d8 0%, #c9bfa8 8%, #0b1e3d 55%, #060f1d 100%);
 }
 
 .app-shell {
@@ -21,7 +21,6 @@ body {
   min-height: 100vh;
   padding: 32px;
   overflow: visible;
-  background: #0B1E3D;
 }
 
 .hero-panel {
@@ -582,7 +581,6 @@ tbody tr:hover {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: #0B1E3D;
 }
 
 .student-form-container {
@@ -840,7 +838,37 @@ tbody tr:hover {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: #0B1E3D;
+}
+
+.login-view::before {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
+  top: -80px;
+  right: -80px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+
+.login-view::after {
+  content: '';
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent 70%);
+  bottom: -60px;
+  left: -60px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: orbFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, -20px); }
 }
 
 .login-glass {
@@ -953,14 +981,14 @@ tbody tr:hover {
   padding: 32px;
   max-width: 1200px;
   margin: 0 auto;
-  background: #0B1E3D;
 }
 
 .logo-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 32px;
   margin-bottom: 20px;
 }
 
@@ -974,7 +1002,28 @@ tbody tr:hover {
 }
 
 .logo-header .programa-logo {
-  height: 70px;
+  height: 90px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.logo-header img {
+  height: auto;
+  display: block;
+}
+
+.logo-header .fundacion-logo {
+  height: 120px;
+}
+
+.logo-header .programa-logo {
+  height: 60px;
 }
 
 .admin-header {
