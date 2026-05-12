@@ -1,21 +1,16 @@
 import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, push, onValue, remove, get } from 'firebase/database'
+import { getFirestore, collection, addDoc, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore'
 
-// =====================================================
-// IMPORTANTE: Reemplaza estos valores con los de TU
-// proyecto de Firebase para ACAR
-// =====================================================
 const firebaseConfig = {
-  apiKey: "TU_API_KEY_AQUI",
-  authDomain: "tu-proyecto-acar.firebaseapp.com",
-  databaseURL: "https://tu-proyecto-acar-default-rtdb.firebaseio.com",
-  projectId: "tu-proyecto-acar",
-  storageBucket: "tu-proyecto-acar.firebasestorage.app",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyAKeXMJHfI930fyU6FWGhOAWeX4G1C_Dpk",
+  authDomain: "asistencias-acar.firebaseapp.com",
+  projectId: "asistencias-acar",
+  storageBucket: "asistencias-acar.firebasestorage.app",
+  messagingSenderId: "112464202535",
+  appId: "1:112464202535:web:70dcb15953567a1eed7702"
 }
 
 const app = initializeApp(firebaseConfig)
-const db = getDatabase(app)
+const db = getFirestore(app)
 
-export { db, ref, push, onValue, remove, get }
+export { db, collection, addDoc, getDocs, query, where, deleteDoc, doc }
