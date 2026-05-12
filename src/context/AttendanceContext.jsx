@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { db, collection, addDoc, getDocs, query, where, deleteDoc, doc, onSnapshot } from '../firebase'
+import { db, ref, push, onValue, remove, get } from '../firebase'
 
 const AttendanceContext = createContext(null)
 
@@ -47,27 +47,28 @@ export function AttendanceProvider({ children }) {
   }, [institutoActivo])
 
   useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, 'institutos', institutoActivo, 'materias'),
-      (snap) => {
-        const data = snap.docs.map(d => ({ ...d.data(), id: d.id }))
-        setMaterias(data)
-      }
-    )
-    return () => unsub()
+    const materiasRef = ref(db, `institutos/${institutoActivo}/materias`)
+    const unsubscribe = onValue(materiasRef, (snapshot) => {
+      const data = []
+      snapshot.forEach((child) => {
+        data.push({ ...child.val(), id: child.key })
+      })
+      setMaterias(data)
+    })
+    return () => unsubscribe()
   }, [institutoActivo])
 
   useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, 'institutos', institutoActivo, 'attendance'),
-      (snap) => {
-        const data = []
-        snap.forEach(d => data.push({ ...d.data(), id: d.id }))
-        data.sort((a, b) => b.date.localeCompare(a.date) || a.time.localeCompare(b.time))
-        setAttendance(data)
-      }
-    )
-    return () => unsub()
+    const attendanceRef = ref(db, `institutos/${institutoActivo}/attendance`)
+    const unsubscribe = onValue(attendanceRef, (snapshot) => {
+      const data = []
+      snapshot.forEach((child) => {
+        data.push({ ...child.val(), id: child.key })
+      })
+      data.sort((a, b) => b.date.localeCompare(a.date) || a.time.localeCompare(b.time))
+      setAttendance(data)
+    })
+    return () => unsubscribe()
   }, [institutoActivo])
 
   async function addMateria(nombre) {
@@ -75,21 +76,23 @@ export function AttendanceProvider({ children }) {
     if (!clean) return
     const exists = materias.find(m => m.nombre.toLowerCase() === clean.toLowerCase())
     if (exists) return
-    await addDoc(collection(db, 'institutos', institutoActivo, 'materias'), { nombre: clean })
+    await push(ref(db, `institutos/${institutoActivo}/materias`), { nombre: clean })
   }
 
   async function deleteMateria(id) {
-    await deleteDoc(doc(db, 'institutos', institutoActivo, 'materias', id))
+    await remove(ref(db, `institutos/${institutoActivo}/materias/${id}`))
   }
 
   async function checkDuplicate(nationalId, date) {
-    const q = query(
-      collection(db, 'institutos', institutoActivo, 'attendance'),
-      where('nationalId', '==', nationalId),
-      where('date', '==', date)
-    )
-    const snap = await getDocs(q)
-    return !snap.empty
+    const snapshot = await get(ref(db, `institutos/${institutoActivo}/attendance`))
+    let isDuplicate = false
+    snapshot.forEach(child => {
+      const val = child.val()
+      if (val.nationalId && val.nationalId.toLowerCase() === nationalId.toLowerCase() && val.date === date) {
+        isDuplicate = true
+      }
+    })
+    return isDuplicate
   }
 
   async function registerAttendance({ name, subject, nationalId, seccion, representante, instituto }) {
@@ -113,18 +116,20 @@ export function AttendanceProvider({ children }) {
       code,
       instituto: target,
     }
-    await addDoc(collection(db, 'institutos', target, 'attendance'), record)
+    await push(ref(db, `institutos/${target}/attendance`), record)
     return record
   }
 
   async function resetAttendance(date) {
-    const q = query(
-      collection(db, 'institutos', institutoActivo, 'attendance'),
-      where('date', '==', date)
-    )
-    const snap = await getDocs(q)
-    for (const d of snap.docs) {
-      await deleteDoc(doc(db, 'institutos', institutoActivo, 'attendance', d.id))
+    const snapshot = await get(ref(db, `institutos/${institutoActivo}/attendance`))
+    const toRemove = []
+    snapshot.forEach(child => {
+      if (child.val().date === date) {
+        toRemove.push(child.key)
+      }
+    })
+    for (const key of toRemove) {
+      await remove(ref(db, `institutos/${institutoActivo}/attendance/${key}`))
     }
   }
 
