@@ -39,7 +39,6 @@ export default function StudentView() {
           <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
         </div>
         <div className="student-form-container glass-fade-in">
-          <div className="student-brand">
             <UserCheck size={20} />
             <span>{institutoNombre}</span>
           </div>
@@ -84,14 +83,14 @@ export default function StudentView() {
     }
   }
 
-  return (
+return (
     <main className="student-view-glass">
+      <div className="logo-header">
+        <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
+        <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
+      </div>
       {!registered ? (
         <div className="student-form-container glass-fade-in">
-          <div className="logo-header">
-            <img src="/ANAGRAMA FUNDACION.png" alt="Fundacion" className="fundacion-logo" />
-            <img src="/LOGO-ACAR.png" alt="Programa ACAR" className="programa-logo" />
-          </div>
           <div className="student-brand">
             <UserCheck size={20} />
             <span>{institutoNombre}</span>
