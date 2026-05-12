@@ -163,8 +163,15 @@ export default function AdminView() {
     e.preventDefault()
     const clean = nuevaMateria.trim()
     if (!clean) return
-    await addMateria(clean)
-    setNuevaMateria('')
+    setStatus('Agregando...')
+    try {
+      await addMateria(clean)
+      setNuevaMateria('')
+      setStatus('Materia agregada!')
+      setTimeout(() => setStatus('Listo.'), 2000)
+    } catch (err) {
+      setStatus('Error al agregar.')
+    }
   }
 
   async function handleDeleteMateria(id) {
