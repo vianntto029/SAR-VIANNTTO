@@ -66,24 +66,22 @@ export default function AdminView() {
       return `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(selectedProyecto.nombre)}`
     }
     if (quickConfirmed && quickProy) {
-      const orgParam = quickOrg.trim() || organizacionActiva
-      return `${baseUrl}?organizacion=${encodeURIComponent(orgParam)}&proyecto=${encodeURIComponent(quickProy)}`
+      return `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(quickProy)}`
     }
     return null
-  }, [selectedProyecto, quickConfirmed, quickOrg, quickProy, baseUrl, organizacionActiva])
+  }, [selectedProyecto, quickConfirmed, quickProy, baseUrl, organizacionActiva])
 
   const hasQR = selectedProyecto || (quickConfirmed && quickProy)
 
   const surQrLink = useMemo(() => {
     if (surConfirmed && surEncuestaId) {
-      const orgParam = surOrg.trim() || organizacionActiva
       const proyParam = surProy.trim()
-      let url = `${baseUrl}/encuesta?organizacion=${encodeURIComponent(orgParam)}&encuesta=${surEncuestaId}`
+      let url = `${baseUrl}/encuesta?organizacion=${organizacionActiva}&encuesta=${surEncuestaId}`
       if (proyParam) url += `&proyecto=${encodeURIComponent(proyParam)}`
       return url
     }
     return null
-  }, [surConfirmed, surEncuestaId, surOrg, surProy, baseUrl, organizacionActiva])
+  }, [surConfirmed, surEncuestaId, surProy, baseUrl, organizacionActiva])
 
   const dailyRows = useMemo(
     () => attendance.filter((row) => row.date === selectedDate),
@@ -167,8 +165,7 @@ export default function AdminView() {
     if (selectedProyecto) {
       url = `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(selectedProyecto.nombre)}`
     } else {
-      const orgParam = quickOrg.trim() || organizacionActiva
-      url = `${baseUrl}?organizacion=${encodeURIComponent(orgParam)}&proyecto=${encodeURIComponent(quickProy)}`
+      url = `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(quickProy)}`
     }
     window.open(url, '_blank')
   }
