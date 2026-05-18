@@ -10,7 +10,7 @@ const FINAL_COLOR = {
   'letter-t1': GRAY, 'letter-t2': GRAY, 'letter-o': GRAY,
 }
 
-const T = 0.28
+const T = 0.3
 const DRAW_SEQ = [
   { id: 'v-main', type: 'shape', delay: 0.0, dur: 2.2 },
   { id: 'v-left', type: 'shape', delay: 0.4, dur: 1.8 },
@@ -196,7 +196,7 @@ export default function ViannttoSplash({ onComplete }) {
       console.warn('ViannttoSplash animation error:', e)
     }
 
-    const fadeMs = (UNDRAW_START + 2.5) * T * 1000
+    const fadeMs = (UNDRAW_START + 4) * T * 1000
     const completeMs = fadeMs + 400
     const fadeTimer = setTimeout(() => setFading(true), fadeMs)
     const compTimer = setTimeout(() => {
