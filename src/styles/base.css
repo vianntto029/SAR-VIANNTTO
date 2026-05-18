@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
@@ -6,6 +25,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   background: linear-gradient(180deg, #FFFFFF 0%, #EBEDEF 14%, #C4C9CE 28%, #d2beb8 42%, #C5AFA8 56%, #C5AFA8 70%, #C5AFA8 84%, #C5AFA8 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Satoshi', sans-serif;
 }
 
 p { margin: 0; }

@@ -115,11 +115,11 @@ export default function SurveyView() {
         {!registered ? (
           <div>
             <div className="student-brand"><img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} /><span>{orgNombre}</span></div>
-            <h1 style={{ margin: '8px 0 4px' }}>Encuesta de Satisfacción</h1>
-            <p className="student-subtitle" style={{ marginBottom: 16 }}>
+            <h1 style={{ margin: '20px 0 8px' }}>Encuesta de Satisfacción</h1>
+            <p className="student-subtitle" style={{ marginBottom: 20, marginTop: 0 }}>
               Responde las siguientes preguntas para ayudarnos a mejorar.
             </p>
-            <div className="student-form-divider" style={{ margin: '12px 0' }} />
+            <div className="student-form-divider" style={{ margin: '16px 0' }} />
 
             <form className="survey-form" onSubmit={handleSubmit}>
               <label className="survey-name-label">

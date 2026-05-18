@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Check } from 'lucide-react'
 import { useAttendance, todayKey, dailyCode, ORGANIZACIONES } from '../context/AttendanceContext'
+import ViannttoSplash from '../components/ViannttoSplash'
 import '../App.css'
 
 export default function StudentView() {
@@ -9,6 +10,13 @@ export default function StudentView() {
   const urlParams = new URLSearchParams(window.location.search)
   const proyectoParam = urlParams.get('proyecto') || ''
   const organizacionQR = urlParams.get('organizacion')
+  const [showSplash, setShowSplash] = useState(() => {
+    if (!proyectoParam) return false
+    const seen = sessionStorage.getItem('vianntto-splash-seen')
+    if (seen) return false
+    sessionStorage.setItem('vianntto-splash-seen', 'true')
+    return true
+  })
 
   const [form, setForm] = useState({
     name: '',
@@ -30,6 +38,10 @@ export default function StudentView() {
       requestAnimationFrame(() => setShowSuccess(true))
     }
   }, [registered, showSuccess])
+
+  if (showSplash) {
+    return <ViannttoSplash onComplete={() => setShowSplash(false)} />
+  }
 
   if (!proyectoParam) {
     return (

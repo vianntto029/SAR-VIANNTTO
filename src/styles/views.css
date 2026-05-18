@@ -5,17 +5,19 @@
 
 .survey-form {
   display: grid;
-  gap: 14px;
+  gap: 22px;
 }
 
 .survey-name-label,
 .survey-question-label {
   display: grid;
-  gap: 6px;
+  gap: 10px;
   color: #334155;
   font-size: 13px;
   font-weight: 800;
 }
+
+.survey-name-label { gap: 12px; }
 
 .survey-question-text {
   color: #C5AFA8;
@@ -65,7 +67,7 @@
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'Sora', sans-serif;
+  font-family: 'Satoshi', sans-serif;
   transition: all 0.25s ease;
   min-height: 42px;
 }
@@ -128,6 +130,7 @@
   color: #C5AFA8;
   font-weight: 800;
   font-size: 14px;
+  font-family: 'Satoshi', sans-serif;
 }
 
 .student-form-container h1 {
@@ -625,7 +628,7 @@
 
   .survey-pagination { flex-wrap: wrap; gap: 10px; }
 
-  .survey-page-btn { flex: 1; justify-content: center; }
+  .survey-page-btn { flex: 1; justify-content: center; font-family: 'Satoshi', sans-serif; }
 
   .organizacion-bar { flex-wrap: wrap; gap: 8px; font-size: 13px; }
 

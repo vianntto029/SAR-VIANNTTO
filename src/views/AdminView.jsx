@@ -278,7 +278,7 @@ export default function AdminView() {
       )}
 
       <header className="admin-header">
-        <div className="logo-header">
+        <div className="logo-header" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <img src="/logo-vianntto.svg" alt="Vianntto" className="fundacion-logo" style={{ height: 50 }} />
           <h1>Panel de Control - SAR Vianntto</h1>
         </div>
@@ -356,7 +356,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>{code}</span>
           </div>
-          <QRCodeCanvas value={qrLink} size={190} includeMargin />
+          <QRCodeCanvas value={qrLink} size={190} includeMargin fgColor="#596879" />
           <p className="qr-link">{qrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openManualForm} title="Abrir formulario">
@@ -463,7 +463,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>Encuesta: {surProy}</span>
           </div>
-          <QRCodeCanvas value={surQrLink} size={190} includeMargin />
+          <QRCodeCanvas value={surQrLink} size={190} includeMargin fgColor="#596879" />
           <p className="qr-link">{surQrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openSurManualForm} title="Abrir encuesta">
