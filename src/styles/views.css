@@ -12,16 +12,19 @@
 .survey-question-label {
   display: grid;
   gap: 10px;
-  color: #334155;
+  color: #838B9B;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 .survey-name-label { gap: 12px; }
 
 .survey-question-text {
-  color: #C5AFA8;
+  color: #838B9B;
   font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
   line-height: 1.4;
   word-break: break-word;
 }
@@ -42,8 +45,8 @@
 .survey-name-label input:focus,
 .survey-question-label input:focus {
   outline: none;
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 4px rgba(197, 175, 168, 0.12);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 4px rgba(188, 178, 174, 0.12);
   background: rgba(255, 255, 255, 0.95);
 }
 
@@ -63,7 +66,7 @@
   border: 1px solid #C4C9CE;
   border-radius: 10px;
   background: #ffffff;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -73,8 +76,8 @@
 }
 
 .survey-page-btn:hover:not(:disabled) {
-  border-color: #C5AFA8;
-  box-shadow: 0 4px 14px rgba(197, 175, 168, 0.15);
+  border-color: #bcb2ae;
+  box-shadow: 0 4px 14px rgba(188, 178, 174, 0.15);
   transform: translateY(-1px);
 }
 
@@ -86,7 +89,7 @@
 .survey-page-indicator {
   font-size: 14px;
   font-weight: 800;
-  color: #C5AFA8;
+  color: #bcb2ae;
   min-width: 50px;
   text-align: center;
 }
@@ -127,16 +130,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #C5AFA8;
-  font-weight: 800;
+  color: #838B9B;
+  font-weight: 400;
   font-size: 14px;
   font-family: 'Satoshi', sans-serif;
+  text-transform: uppercase;
 }
 
 .student-form-container h1 {
   font-size: 22px;
   font-weight: 800;
-  color: #C5AFA8;
+  color: #bcb2ae;
   margin-bottom: 0;
 }
 
@@ -148,7 +152,7 @@
 
 .student-form-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(197, 175, 168, 0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(188, 178, 174, 0.15), transparent);
   margin: -4px 0;
 }
 
@@ -157,7 +161,7 @@
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: linear-gradient(135deg, #C5AFA8, #d2beb8);
+  background: linear-gradient(135deg, #bcb2ae, #ccc0bc);
   color: #fff;
   border-radius: 20px;
   font-size: 14px;
@@ -195,8 +199,8 @@
 
 .student-form-glass input:focus {
   outline: none;
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 4px rgba(197, 175, 168, 0.12);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 4px rgba(188, 178, 174, 0.12);
   background: rgba(255, 255, 255, 0.95);
   transform: scale(1.01);
 }
@@ -210,7 +214,7 @@
 
 .student-form-glass .primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(197, 175, 168, 0.35);
+  box-shadow: 0 8px 24px rgba(188, 178, 174, 0.35);
 }
 
 .student-form-glass .status {
@@ -223,12 +227,12 @@
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  background: rgba(197, 175, 168, 0.08);
-  border: 1px solid rgba(197, 175, 168, 0.2);
+  background: rgba(188, 178, 174, 0.08);
+  border: 1px solid rgba(188, 178, 174, 0.2);
   border-radius: 16px;
   font-size: 12px;
   font-weight: 700;
-  color: #C5AFA8;
+  color: #bcb2ae;
   margin-bottom: 4px;
   align-self: flex-start;
 }
@@ -242,7 +246,7 @@
   transition: color 0.3s ease;
 }
 
-.admin-link:hover { color: #C5AFA8; text-decoration: underline; }
+.admin-link:hover { color: #bcb2ae; text-decoration: underline; }
 
 /* === Success Card === */
 .success-card-glass {
@@ -275,13 +279,13 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #C5AFA8, #d2beb8);
+  background: linear-gradient(135deg, #bcb2ae, #ccc0bc);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  box-shadow: 0 8px 28px rgba(197, 175, 168, 0.4);
+  box-shadow: 0 8px 28px rgba(188, 178, 174, 0.4);
   position: relative;
   z-index: 1;
   animation: successIconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
@@ -300,7 +304,7 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: rgba(197, 175, 168, 0.08);
+  background: rgba(188, 178, 174, 0.08);
   animation: pulseRing 2.5s ease-in-out infinite;
 }
 
@@ -312,14 +316,14 @@
 .success-card-glass h1 {
   font-size: 28px;
   font-weight: 800;
-  color: #C5AFA8;
+  color: #bcb2ae;
   margin-bottom: 8px;
 }
 
 .success-name-glass {
   font-size: 22px;
   font-weight: 800;
-  color: #C5AFA8;
+  color: #bcb2ae;
   margin-bottom: 8px;
 }
 
@@ -334,8 +338,8 @@
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  background: rgba(197, 175, 168, 0.08);
-  border: 1px solid rgba(197, 175, 168, 0.15);
+  background: rgba(188, 178, 174, 0.08);
+  border: 1px solid rgba(188, 178, 174, 0.15);
   border-radius: 20px;
   font-size: 13px;
 }
@@ -343,7 +347,7 @@
 .success-label { color: #64748b; font-weight: 600; }
 
 .success-code-glass {
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 800;
   font-family: 'Courier New', monospace;
 }
@@ -377,7 +381,7 @@
   position: fixed;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(197, 175, 168, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(188, 178, 174, 0.15), transparent 70%);
   top: -80px;
   right: -80px;
   border-radius: 50%;
@@ -390,7 +394,7 @@
   position: fixed;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(197, 175, 168, 0.1), transparent 70%);
+  background: radial-gradient(circle, rgba(188, 178, 174, 0.1), transparent 70%);
   bottom: -60px;
   left: -60px;
   border-radius: 50%;
@@ -423,21 +427,22 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #C5AFA8, #d2beb8);
+  background: linear-gradient(135deg, #bcb2ae, #ccc0bc);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  box-shadow: 0 6px 20px rgba(197, 175, 168, 0.35);
+  box-shadow: 0 6px 20px rgba(188, 178, 174, 0.35);
 }
 
 .login-glass h1 {
   text-align: center;
   font-size: 22px;
-  font-weight: 800;
-  color: #C5AFA8;
+  font-weight: 400;
+  color: #838B9B;
   margin-bottom: 0;
+  text-transform: uppercase;
 }
 
 .login-form {
@@ -470,8 +475,8 @@
 
 .login-form input:focus {
   outline: none;
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 4px rgba(197, 175, 168, 0.12);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 4px rgba(188, 178, 174, 0.12);
   background: rgba(255, 255, 255, 0.95);
   transform: scale(1.01);
 }
@@ -482,17 +487,17 @@
   padding: 14px;
   font-size: 15px;
   font-weight: 800;
-  background: #C5AFA8;
+  background: #bcb2ae;
   color: white;
-  border-color: #C5AFA8;
+  border-color: #bcb2ae;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: 'Sora', sans-serif;
 }
 
 .login-form button:hover {
-  background: #d2beb8;
+  background: #ccc0bc;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(197, 175, 168, 0.35);
+  box-shadow: 0 8px 24px rgba(188, 178, 174, 0.35);
 }
 
 .login-form .status {
@@ -545,14 +550,14 @@
   background: #EBEDEF;
   border: 1px solid #C4C9CE;
   border-radius: 10px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 14px;
   font-weight: 800;
   transition: box-shadow 0.3s ease;
 }
 
 .organizacion-bar:hover {
-  box-shadow: 0 4px 14px rgba(197, 175, 168, 0.1);
+  box-shadow: 0 4px 14px rgba(188, 178, 174, 0.1);
 }
 
 .organizacion-bar select {
@@ -561,7 +566,7 @@
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
-  color: #C5AFA8;
+  color: #bcb2ae;
   background: #ffffff;
   cursor: pointer;
   font-family: 'Sora', sans-serif;
@@ -569,12 +574,12 @@
 }
 
 .organizacion-bar select:hover {
-  border-color: #C5AFA8;
+  border-color: #bcb2ae;
 }
 
 .admin-header h1 {
   font-size: 24px;
-  color: #C5AFA8;
+  color: #bcb2ae;
 }
 
 .logout-btn {

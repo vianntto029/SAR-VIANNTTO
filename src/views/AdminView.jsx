@@ -54,6 +54,8 @@ export default function AdminView() {
   const [surPreguntas, setSurPreguntas] = useState([])
   const [surPreguntasGuardadas, setSurPreguntasGuardadas] = useState([])
 
+  const [restored, setRestored] = useState(false)
+
   const navigate = useNavigate()
   const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, encuestas, saveEncuesta } = useAttendance()
 
@@ -64,8 +66,8 @@ export default function AdminView() {
     if (!auth) navigate('/login')
   }, [navigate])
 
+  // Restore from localStorage once on mount
   useEffect(() => {
-    setSelectedProyecto(null)
     const saved = loadPersist(STORE_NS)
     if (saved) {
       if (saved.quickOrg) setQuickOrg(saved.quickOrg)
@@ -77,19 +79,28 @@ export default function AdminView() {
       if (saved.surConfirmed) setSurConfirmed(true)
       if (saved.surPreguntasGuardadas) setSurPreguntasGuardadas(saved.surPreguntasGuardadas)
     }
-  }, [organizacionActiva])
+    setRestored(true)
+  }, []) // only on mount — survives logout/login
 
-  function persistQR() {
+  // Auto-persist whenever any QR state changes
+  useEffect(() => {
+    if (!restored) return
     savePersist(STORE_NS, {
       quickOrg, quickProy, quickConfirmed,
       surOrg, surProy, surEncuestaId, surConfirmed, surPreguntasGuardadas,
     })
-  }
+  }, [quickOrg, quickProy, quickConfirmed, surOrg, surProy, surEncuestaId, surConfirmed, surPreguntasGuardadas, STORE_NS, restored])
+
+  // Clear selected project when org changes
+  useEffect(() => {
+    setSelectedProyecto(null)
+  }, [organizacionActiva])
 
   function refreshQR() {
-    const full = loadPersist(STORE_NS)
-    const cleaned = { ...(full || {}), quickOrg: '', quickProy: '', quickConfirmed: false }
-    savePersist(STORE_NS, cleaned)
+    savePersist(STORE_NS, {
+      quickOrg: '', quickProy: '', quickConfirmed: false,
+      surOrg, surProy, surEncuestaId, surConfirmed, surPreguntasGuardadas,
+    })
     setQuickOrg('')
     setQuickProy('')
     setQuickConfirmed(false)
@@ -98,9 +109,10 @@ export default function AdminView() {
   }
 
   function refreshSur() {
-    const full = loadPersist(STORE_NS)
-    const cleaned = { ...(full || {}), surOrg: '', surProy: '', surEncuestaId: null, surConfirmed: false, surPreguntasGuardadas: [] }
-    savePersist(STORE_NS, cleaned)
+    savePersist(STORE_NS, {
+      quickOrg, quickProy, quickConfirmed,
+      surOrg: '', surProy: '', surEncuestaId: null, surConfirmed: false, surPreguntasGuardadas: [],
+    })
     setSurOrg('')
     setSurProy('')
     setSurEncuestaId(null)
@@ -208,7 +220,6 @@ export default function AdminView() {
     if (!quickProy.trim()) return
     setQuickConfirmed(true)
     setSelectedProyecto(null)
-    persistQR()
     setStatus('QR generado!')
     setTimeout(() => setStatus('Listo.'), 2000)
   }
@@ -273,7 +284,6 @@ export default function AdminView() {
       setSurEncuestaId(id)
       setSurPreguntasGuardadas(validas.map(p => p.texto.trim()))
       setShowSurModal(false)
-      persistQR()
       setStatus('Encuesta guardada! Ahora genera el QR.')
       setTimeout(() => setStatus('Listo.'), 3000)
     } catch (err) {
@@ -284,7 +294,6 @@ export default function AdminView() {
   function handleSurConfirm() {
     if (!surProy.trim() || !surEncuestaId) return
     setSurConfirmed(true)
-    persistQR()
     setStatus('QR de encuesta generado!')
     setTimeout(() => setStatus('Listo.'), 2000)
   }
@@ -411,7 +420,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>{code}</span>
           </div>
-          <QRCodeCanvas value={qrLink} size={190} includeMargin fgColor="#1b1d1b" />
+          <QRCodeCanvas value={qrLink} size={190} includeMargin fgColor="#838B9B" />
           <p className="qr-link">{qrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openManualForm} title="Abrir formulario">
@@ -518,7 +527,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>Encuesta: {surProy}</span>
           </div>
-          <QRCodeCanvas value={surQrLink} size={190} includeMargin fgColor="#1b1d1b" />
+          <QRCodeCanvas value={surQrLink} size={190} includeMargin fgColor="#838B9B" />
           <p className="qr-link">{surQrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openSurManualForm} title="Abrir encuesta">

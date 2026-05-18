@@ -24,7 +24,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFFFFF 0%, #EBEDEF 14%, #C4C9CE 28%, #d2beb8 42%, #C5AFA8 56%, #C5AFA8 70%, #C5AFA8 84%, #C5AFA8 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EBEDEF 20%, #C4C9CE 40%, #ccc0bc 55%, #bcb2ae 68%, #bcb2ae 80%, #bcb2ae 90%, #bcb2ae 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }

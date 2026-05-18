@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const BEIGE = '#CDB3A7'
 const GRAY = '#A6A6A6'
@@ -10,6 +10,7 @@ const FINAL_COLOR = {
   'letter-t1': GRAY, 'letter-t2': GRAY, 'letter-o': GRAY,
 }
 
+const T = 0.28
 const DRAW_SEQ = [
   { id: 'v-main', type: 'shape', delay: 0.0, dur: 2.2 },
   { id: 'v-left', type: 'shape', delay: 0.4, dur: 1.8 },
@@ -23,7 +24,6 @@ const DRAW_SEQ = [
   { id: 'letter-t2', type: 'shape', delay: 4.7, dur: 1.1 },
   { id: 'letter-o', type: 'shape', delay: 5.1, dur: 1.5 },
 ]
-
 const UNDRAW_START = 8.0
 const UNDRAW_SEQ = [
   { id: 'letter-o', type: 'shape', delay: 0.0, dur: 1.0 },
@@ -51,8 +51,8 @@ function toTransparent(hex) {
 }
 
 function animateTraceAndFill(el, totalLen, opts) {
-  const delayMs = opts.delay * 1000
-  const durMs = opts.dur * 1000
+  const delayMs = opts.delay * T * 1000
+  const durMs = opts.dur * T * 1000
   const color = opts.color
   const trans = toTransparent(color)
 
@@ -67,7 +67,7 @@ function animateTraceAndFill(el, totalLen, opts) {
 
   el.animate(
     [{ opacity: 0 }, { opacity: 1 }],
-    { duration: 300, delay: delayMs, easing: FADE_EASE, fill: 'forwards' }
+    { duration: 300 * T, delay: delayMs, easing: FADE_EASE, fill: 'forwards' }
   )
   el.animate(
     [{ strokeDashoffset: `${totalLen}px` }, { strokeDashoffset: '0px' }],
@@ -88,8 +88,8 @@ function animateTraceAndFill(el, totalLen, opts) {
 }
 
 function animateDetail(el, opts) {
-  const delayMs = opts.delay * 1000
-  const durMs = opts.dur * 1000
+  const delayMs = opts.delay * T * 1000
+  const durMs = opts.dur * T * 1000
   const color = opts.color
 
   el.style.fill = 'none'
@@ -108,8 +108,8 @@ function animateDetail(el, opts) {
 }
 
 function animateUndraw(el, opts, globalStart) {
-  const delayMs = (globalStart + opts.delay) * 1000
-  const durMs = opts.dur * 1000
+  const delayMs = (globalStart + opts.delay) * T * 1000
+  const durMs = opts.dur * T * 1000
   const color = opts.color
 
   el.animate(
@@ -126,13 +126,13 @@ function animateUndraw(el, opts, globalStart) {
   )
   el.animate(
     [{ opacity: 1 }, { opacity: 0 }],
-    { duration: 250, delay: delayMs + durMs * 0.85, easing: FADE_EASE, fill: 'forwards' }
+    { duration: 250 * T, delay: delayMs + durMs * 0.85, easing: FADE_EASE, fill: 'forwards' }
   )
 }
 
 function animateDetailUndraw(el, opts, globalStart) {
-  const delayMs = (globalStart + opts.delay) * 1000
-  const durMs = opts.dur * 1000
+  const delayMs = (globalStart + opts.delay) * T * 1000
+  const durMs = opts.dur * T * 1000
   const color = opts.color
 
   el.animate(
@@ -148,6 +148,7 @@ function animateDetailUndraw(el, opts, globalStart) {
 export default function ViannttoSplash({ onComplete }) {
   const svgRef = useRef(null)
   const doneRef = useRef(false)
+  const [fading, setFading] = useState(false)
 
   useEffect(() => {
     try {
@@ -195,15 +196,19 @@ export default function ViannttoSplash({ onComplete }) {
       console.warn('ViannttoSplash animation error:', e)
     }
 
-    const timer = setTimeout(() => {
+    const fadeMs = (UNDRAW_START + 2.5) * T * 1000
+    const completeMs = fadeMs + 400
+    const fadeTimer = setTimeout(() => setFading(true), fadeMs)
+    const compTimer = setTimeout(() => {
       if (!doneRef.current) {
         doneRef.current = true
         onComplete?.()
       }
-    }, (UNDRAW_START + 4) * 1000)
+    }, completeMs)
 
     return () => {
-      clearTimeout(timer)
+      clearTimeout(fadeTimer)
+      clearTimeout(compTimer)
       doneRef.current = true
     }
   }, [onComplete])
@@ -217,6 +222,8 @@ export default function ViannttoSplash({ onComplete }) {
       alignItems: 'center',
       justifyContent: 'center',
       background: '#ffffff',
+      opacity: fading ? 0 : 1,
+      transition: 'opacity 0.4s ease',
     }}>
       <div style={{ width: 'min(700px, 85vw)' }}>
         <svg ref={svgRef} viewBox="-60 -506 1245 1245" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', display: 'block', overflow: 'visible' }}>

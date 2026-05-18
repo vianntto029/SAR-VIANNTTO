@@ -5,13 +5,13 @@
   align-items: stretch;
   color: #EBEDEF;
   background:
-    linear-gradient(135deg, rgba(197, 175, 168, 0.9), rgba(210, 190, 184, 0.95)),
+    linear-gradient(135deg, rgba(188, 178, 174, 0.9), rgba(204, 192, 188, 0.95)),
     url('/bg-hero.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   padding: 34px;
-  box-shadow: 0 20px 45px rgba(197, 175, 168, 0.2);
+  box-shadow: 0 20px 45px rgba(188, 178, 174, 0.2);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -48,14 +48,14 @@
   align-items: stretch;
   color: #EBEDEF;
   background:
-    linear-gradient(135deg, rgba(197, 175, 168, 0.9), rgba(210, 190, 184, 0.95)),
+    linear-gradient(135deg, rgba(188, 178, 174, 0.9), rgba(204, 192, 188, 0.95)),
     url('/bg-hero.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   padding: 34px;
   margin-top: 22px;
-  box-shadow: 0 20px 45px rgba(197, 175, 168, 0.2);
+  box-shadow: 0 20px 45px rgba(188, 178, 174, 0.2);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -115,7 +115,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   overflow-y: auto;
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
@@ -128,7 +128,7 @@
 .encuesta-preview-panel h3 {
   margin: 0;
   font-size: 14px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 700;
 }
 
@@ -147,7 +147,7 @@
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #C5AFA8;
+  color: #bcb2ae;
   text-align: center;
 }
 
@@ -164,7 +164,7 @@
 .encuesta-pregunta-num {
   flex-shrink: 0;
   font-weight: 800;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 13px;
   min-width: 20px;
 }

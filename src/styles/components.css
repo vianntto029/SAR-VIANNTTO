@@ -36,7 +36,7 @@ h1 {
 
 h2 {
   margin: 0 0 8px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 22px;
   line-height: 1.15;
   font-family: 'Satoshi', sans-serif;
@@ -68,7 +68,7 @@ h2 {
   justify-items: center;
   gap: 16px;
   padding: 22px;
-  color: #C5AFA8;
+  color: #bcb2ae;
 }
 
 .qr-panel:hover {
@@ -80,7 +80,7 @@ h2 {
 .qr-heading {
   width: 100%;
   justify-content: center;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 800;
   font-family: 'Satoshi', sans-serif;
 }
@@ -106,7 +106,7 @@ h2 {
   padding: 9px 14px !important;
   border: 1px solid #C4C9CE !important;
   border-radius: 8px !important;
-  background: #C5AFA8 !important;
+  background: #bcb2ae !important;
   color: #fff !important;
   font-size: 13px !important;
   font-weight: 700 !important;
@@ -118,10 +118,10 @@ h2 {
 }
 
 .qr-action-btn:hover {
-  background: #d2beb8 !important;
-  border-color: #d2beb8 !important;
+  background: #ccc0bc !important;
+  border-color: #ccc0bc !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(197, 175, 168, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(188, 178, 174, 0.35) !important;
 }
 
 .qr-panel-empty {
@@ -157,7 +157,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   overflow-y: auto;
   transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -170,7 +170,7 @@ h2 {
 .proyectos-panel h3 {
   margin: 0;
   font-size: 14px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 700;
   font-family: 'Satoshi', sans-serif;
 }
@@ -193,8 +193,8 @@ h2 {
 
 .add-proyecto-form input:focus {
   outline: none;
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 3px rgba(197, 175, 168, 0.1);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 3px rgba(188, 178, 174, 0.1);
 }
 
 .add-proyecto-form button {
@@ -202,7 +202,7 @@ h2 {
   align-items: center;
   gap: 4px;
   padding: 9px 14px;
-  background: #C5AFA8;
+  background: #bcb2ae;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -215,9 +215,9 @@ h2 {
 }
 
 .add-proyecto-form button:hover {
-  background: #d2beb8;
+  background: #ccc0bc;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(197, 175, 168, 0.3);
+  box-shadow: 0 4px 12px rgba(188, 178, 174, 0.3);
 }
 
 .add-proyecto-form button:active {
@@ -263,10 +263,10 @@ h2 {
 }
 
 .proyecto-btn.active {
-  background: #C5AFA8;
+  background: #bcb2ae;
   color: #fff;
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(197, 175, 168, 0.3);
+  box-shadow: 0 4px 14px rgba(188, 178, 174, 0.3);
   transform: scale(1.02);
 }
 
@@ -319,14 +319,14 @@ h2 {
 }
 
 .toolbar label:focus-within {
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 3px rgba(197, 175, 168, 0.08);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 3px rgba(188, 178, 174, 0.08);
 }
 
 .toolbar input {
   border: 0;
   padding: 0;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 800;
 }
 
@@ -335,14 +335,14 @@ input, select {
   border: 1px solid #C4C9CE;
   border-radius: 8px;
   background: #ffffff;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-family: 'Sora', sans-serif;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus, select:focus {
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 3px rgba(197, 175, 168, 0.1);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 3px rgba(188, 178, 174, 0.1);
   outline: none;
 }
 
@@ -353,7 +353,7 @@ button, .primary {
   border-radius: 10px;
   padding: 0 16px;
   background: #ffffff;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-family: 'Sora', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -362,9 +362,9 @@ button, .primary {
 }
 
 button:hover, .primary:hover {
-  border-color: #C5AFA8;
-  color: #C5AFA8;
-  box-shadow: 0 4px 14px rgba(197, 175, 168, 0.15);
+  border-color: #bcb2ae;
+  color: #bcb2ae;
+  box-shadow: 0 4px 14px rgba(188, 178, 174, 0.15);
   transform: translateY(-1px);
 }
 
@@ -383,14 +383,14 @@ button:disabled {
 
 .primary {
   justify-content: center;
-  border-color: #C5AFA8;
-  background: #C5AFA8;
+  border-color: #bcb2ae;
+  background: #bcb2ae;
   color: #ffffff;
 }
 
 .primary:hover {
-  background: #d2beb8;
-  box-shadow: 0 6px 20px rgba(197, 175, 168, 0.35);
+  background: #ccc0bc;
+  box-shadow: 0 6px 20px rgba(188, 178, 174, 0.35);
   transform: translateY(-2px);
 }
 
@@ -452,7 +452,7 @@ button:disabled {
 
 .list-title span {
   flex: 0 0 auto;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 850;
 }
 
@@ -479,7 +479,7 @@ th {
   text-transform: uppercase;
 }
 
-td { color: #C5AFA8; font-size: 14px; }
+td { color: #bcb2ae; font-size: 14px; }
 
 tbody tr {
   transition: background 0.2s ease, transform 0.2s ease;
@@ -506,7 +506,7 @@ tbody tr:hover {
   border: 1px solid #C4C9CE;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 14px;
   font-weight: 700;
   text-align: center;
@@ -515,7 +515,7 @@ tbody tr:hover {
 }
 
 .status-card:hover {
-  box-shadow: 0 8px 24px rgba(197, 175, 168, 0.12);
+  box-shadow: 0 8px 24px rgba(188, 178, 174, 0.12);
   transform: translateY(-1px);
 }
 
@@ -569,7 +569,7 @@ tbody tr:hover {
 .modal-header h2 {
   margin: 0;
   font-size: 20px;
-  color: #C5AFA8;
+  color: #bcb2ae;
 }
 
 .modal-close {
@@ -584,7 +584,7 @@ tbody tr:hover {
 
 .modal-close:hover {
   background: #EBEDEF;
-  color: #C5AFA8;
+  color: #bcb2ae;
 }
 
 .modal-body {
@@ -611,7 +611,7 @@ tbody tr:hover {
 .modal-pregunta-num {
   flex-shrink: 0;
   width: 24px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 800;
   font-size: 14px;
 }
@@ -629,8 +629,8 @@ tbody tr:hover {
 
 .modal-pregunta-input:focus {
   outline: none;
-  border-color: #C5AFA8;
-  box-shadow: 0 0 0 3px rgba(197, 175, 168, 0.1);
+  border-color: #bcb2ae;
+  box-shadow: 0 0 0 3px rgba(188, 178, 174, 0.1);
 }
 
 .modal-pregunta-remove {
@@ -658,7 +658,7 @@ tbody tr:hover {
   background: #EBEDEF;
   border: 1px dashed #C4C9CE;
   border-radius: 8px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -693,7 +693,7 @@ tbody tr:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   overflow-y: auto;
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
@@ -706,7 +706,7 @@ tbody tr:hover {
 .encuesta-preview-panel h3 {
   margin: 0;
   font-size: 14px;
-  color: #C5AFA8;
+  color: #bcb2ae;
   font-weight: 700;
 }
 
@@ -725,7 +725,7 @@ tbody tr:hover {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #C5AFA8;
+  color: #bcb2ae;
   text-align: center;
 }
 
@@ -750,7 +750,7 @@ tbody tr:hover {
 }
 
 .respuestas-list-inline li strong {
-  color: #C5AFA8;
+  color: #bcb2ae;
 }
 
 /* === Mobile Responsive === */
