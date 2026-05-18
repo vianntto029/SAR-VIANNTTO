@@ -41,6 +41,7 @@ export default function AdminView() {
   const [surConfirmed, setSurConfirmed] = useState(false)
   const [showSurModal, setShowSurModal] = useState(false)
   const [surPreguntas, setSurPreguntas] = useState([])
+  const [surPreguntasGuardadas, setSurPreguntasGuardadas] = useState([])
 
   const navigate = useNavigate()
   const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, saveEncuesta } = useAttendance()
@@ -217,6 +218,7 @@ export default function AdminView() {
     try {
       const id = await saveEncuesta(validas.map(p => ({ texto: p.texto.trim() })))
       setSurEncuestaId(id)
+      setSurPreguntasGuardadas(validas.map(p => p.texto.trim()))
       setShowSurModal(false)
       setStatus('Encuesta guardada! Ahora genera el QR.')
       setTimeout(() => setStatus('Listo.'), 3000)
@@ -478,11 +480,18 @@ export default function AdminView() {
         )}
 
         <div className="encuesta-preview-panel">
-          <h3>PREGUNTAS</h3>
-          {surEncuestaId ? (
-            <div className="encuesta-listado-ok">
-              Encuesta configurada en Firebase
-            </div>
+          <h3>PREGUNTAS ({surPreguntasGuardadas.length})</h3>
+          {surEncuestaId && surPreguntasGuardadas.length > 0 ? (
+            <ul className="encuesta-preguntas-list">
+              {surPreguntasGuardadas.map((texto, i) => (
+                <li key={i} className="encuesta-pregunta-item">
+                  <span className="encuesta-pregunta-num">{i + 1}.</span>
+                  <span className="encuesta-pregunta-texto">{texto}</span>
+                </li>
+              ))}
+            </ul>
+          ) : surEncuestaId ? (
+            <div className="encuesta-listado-ok">Encuesta configurada en Firebase</div>
           ) : (
             <div className="empty-proyectos">
               <p>Haz clic en "Personalizar Encuesta" para agregar preguntas.</p>

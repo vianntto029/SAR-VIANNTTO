@@ -151,6 +151,30 @@
   text-align: center;
 }
 
+.encuesta-pregunta-item {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #E9EEF3;
+  border-radius: 6px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.encuesta-pregunta-num {
+  flex-shrink: 0;
+  font-weight: 800;
+  color: #417490;
+  font-size: 13px;
+  min-width: 20px;
+}
+
+.encuesta-pregunta-texto {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 @media (max-width: 900px) {
   .encuesta-panel {
     grid-template-columns: 1fr;
