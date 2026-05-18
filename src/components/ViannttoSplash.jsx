@@ -43,6 +43,7 @@ const DRAW_EASE = 'cubic-bezier(0.16, 0.8, 0.3, 1)'
 const FADE_EASE = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
 
 function toTransparent(hex) {
+  if (!hex || typeof hex !== 'string') return 'rgba(0,0,0,0)'
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
@@ -185,9 +186,9 @@ export default function ViannttoSplash({ onComplete }) {
         if (!el) return
         const color = FINAL_COLOR[s.id]
         if (s.type === 'detail') {
-          animateDetailUndraw(el, s, UNDRAW_START)
+          animateDetailUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
         } else {
-          animateUndraw(el, s, UNDRAW_START)
+          animateUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
         }
       })
     } catch (e) {
