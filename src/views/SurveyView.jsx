@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Check, ClipboardList, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useAttendance, ORGANIZACIONES } from '../context/AttendanceContext'
 import '../App.css'
 
@@ -86,7 +86,7 @@ export default function SurveyView() {
   if (!encuestaId) return (
     <main className="student-view-glass">
       <div className="student-form-container glass-fade-in">
-        <div className="student-brand"><ClipboardList size={20} /><span>{orgNombre}</span></div>
+        <div className="student-brand"><img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} /><span>{orgNombre}</span></div>
         <h1>Encuesta</h1>
         <p className="student-subtitle">Este enlace no tiene una encuesta asignada. Solicita el codigo QR correcto.</p>
       </div>
@@ -100,7 +100,7 @@ export default function SurveyView() {
   if (!encuesta) return (
     <main className="student-view-glass">
       <div className="student-form-container glass-fade-in">
-        <div className="student-brand"><ClipboardList size={20} /><span>{orgNombre}</span></div>
+        <div className="student-brand"><img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} /><span>{orgNombre}</span></div>
         <h1>Encuesta no encontrada</h1>
         <p className="student-subtitle">Esta encuesta no existe o ha sido eliminada.</p>
       </div>
@@ -114,7 +114,7 @@ export default function SurveyView() {
       <div className="student-form-container survey-form-container glass-fade-in">
         {!registered ? (
           <div>
-            <div className="student-brand"><ClipboardList size={20} /><span>{orgNombre}</span></div>
+            <div className="student-brand"><img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} /><span>{orgNombre}</span></div>
             <h1 style={{ margin: '8px 0 4px' }}>Encuesta de Satisfacción</h1>
             <p className="student-subtitle" style={{ marginBottom: 16 }}>
               Responde las siguientes preguntas para ayudarnos a mejorar.

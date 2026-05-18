@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Check, UserCheck } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useAttendance, todayKey, dailyCode, ORGANIZACIONES } from '../context/AttendanceContext'
 import '../App.css'
 
@@ -36,7 +36,7 @@ export default function StudentView() {
       <main className="student-view-glass">
         <div className="student-form-container glass-fade-in">
           <div className="student-brand">
-            <UserCheck size={20} />
+            <img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} />
             <span>{orgNombre}</span>
           </div>
           <h1>Registro</h1>
@@ -86,7 +86,7 @@ return (
         {!registered ? (
           <div>
             <div className="student-brand">
-              <UserCheck size={20} />
+              <img src="/isotipo-vianntto.svg" alt="V" style={{ height: 22, width: 'auto' }} />
               <span>{orgNombre}</span>
             </div>
             <div className="student-proyecto-header" style={{ margin: '8px 0' }}>

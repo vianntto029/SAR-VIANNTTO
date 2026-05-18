@@ -3,15 +3,15 @@
   grid-template-columns: minmax(0, 1fr) 300px 240px;
   gap: 24px;
   align-items: stretch;
-  color: #CCD9E1;
+  color: #EBEDEF;
   background:
-    linear-gradient(135deg, rgba(65, 116, 144, 0.9), rgba(91, 132, 161, 0.95)),
+    linear-gradient(135deg, rgba(197, 175, 168, 0.9), rgba(210, 190, 184, 0.95)),
     url('/bg-hero.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   padding: 34px;
-  box-shadow: 0 20px 45px rgba(65, 116, 144, 0.2);
+  box-shadow: 0 20px 45px rgba(197, 175, 168, 0.2);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -29,7 +29,7 @@
 
 .hero-copy p {
   max-width: 660px;
-  color: #dbeafe;
+  color: #EBEDEF;
   font-size: 18px;
 }
 
@@ -46,16 +46,16 @@
   grid-template-columns: minmax(0, 1fr) 300px 240px;
   gap: 24px;
   align-items: stretch;
-  color: #CCD9E1;
+  color: #EBEDEF;
   background:
-    linear-gradient(135deg, rgba(65, 116, 144, 0.9), rgba(91, 132, 161, 0.95)),
+    linear-gradient(135deg, rgba(197, 175, 168, 0.9), rgba(210, 190, 184, 0.95)),
     url('/bg-hero.jpg');
   background-size: cover;
   background-position: center;
   border-radius: 12px;
   padding: 34px;
   margin-top: 22px;
-  box-shadow: 0 20px 45px rgba(65, 116, 144, 0.2);
+  box-shadow: 0 20px 45px rgba(197, 175, 168, 0.2);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .encuesta-copy > p {
-  color: #dbeafe;
+  color: #EBEDEF;
   font-size: 16px;
   margin: 0 0 8px;
 }
@@ -109,13 +109,13 @@
 
 .encuesta-preview-panel {
   background: #ffffff;
-  border: 1px solid #ACC2CF;
+  border: 1px solid #C4C9CE;
   border-radius: 12px;
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  color: #417490;
+  color: #C5AFA8;
   overflow-y: auto;
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
@@ -128,7 +128,7 @@
 .encuesta-preview-panel h3 {
   margin: 0;
   font-size: 14px;
-  color: #417490;
+  color: #C5AFA8;
   font-weight: 700;
 }
 
@@ -143,11 +143,11 @@
 
 .encuesta-listado-ok {
   padding: 12px;
-  background: #E9EEF3;
+  background: #EBEDEF;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #417490;
+  color: #C5AFA8;
   text-align: center;
 }
 
@@ -155,7 +155,7 @@
   display: flex;
   gap: 6px;
   padding: 8px 10px;
-  background: #E9EEF3;
+  background: #EBEDEF;
   border-radius: 6px;
   line-height: 1.4;
   word-break: break-word;
@@ -164,7 +164,7 @@
 .encuesta-pregunta-num {
   flex-shrink: 0;
   font-weight: 800;
-  color: #417490;
+  color: #C5AFA8;
   font-size: 13px;
   min-width: 20px;
 }
@@ -230,7 +230,7 @@
 .quick-label-preview {
   font-size: 12px;
   font-weight: 700;
-  color: #dbeafe;
+  color: #EBEDEF;
   padding: 6px 10px;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.15);

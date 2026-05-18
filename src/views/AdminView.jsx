@@ -278,7 +278,10 @@ export default function AdminView() {
       )}
 
       <header className="admin-header">
-        <h1>Panel de Control - Sistema Automático de Registro Vianntto</h1>
+        <div className="logo-header">
+          <img src="/logo-vianntto.svg" alt="Vianntto" className="fundacion-logo" style={{ height: 50 }} />
+          <h1>Panel de Control - SAR Vianntto</h1>
+        </div>
         <button className="logout-btn" onClick={logout}>
           <LogOut size={18} />
           Salir

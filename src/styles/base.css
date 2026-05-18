@@ -5,7 +5,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFFFFF 0%, #E9EEF3 14%, #CCD9E1 28%, #ACC2CF 42%, #8EABC0 56%, #7197AE 70%, #5B84A1 84%, #417490 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EBEDEF 14%, #C4C9CE 28%, #d2beb8 42%, #C5AFA8 56%, #C5AFA8 70%, #C5AFA8 84%, #C5AFA8 100%);
 }
 
 p { margin: 0; }
