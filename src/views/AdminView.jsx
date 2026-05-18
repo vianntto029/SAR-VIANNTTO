@@ -4,6 +4,7 @@ import { QRCodeCanvas } from 'qrcode.react'
 import {
   Building2,
   CalendarDays,
+  Check,
   Download,
   ExternalLink,
   LogOut,
@@ -12,42 +13,37 @@ import {
   RefreshCcw,
   Trash2,
   Copy,
+  Settings,
+  X,
 } from 'lucide-react'
-import { useAttendance, todayKey, dailyCode, INSTITUTOS } from '../context/AttendanceContext'
+import { useAttendance, todayKey, dailyCode, ORGANIZACIONES } from '../context/AttendanceContext'
+import { buildAsistenciaWorkbook, buildEncuestaWorkbook, downloadBuffer } from '../utils/excel'
 import '../App.css'
 
-const ADMIN_PASSWORD = 'acar2026'
-
-function groupBySubject(rows) {
-  return rows.reduce((subjects, row) => {
-    const sub = row.subject || 'Sin materia'
-    if (!subjects[sub]) subjects[sub] = []
-    subjects[sub].push(row)
-    return subjects
-  }, {})
-}
-
-function styleHeaderRow(row) {
-  row.eachCell((cell) => {
-    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1D4ED8' } }
-    cell.font = { color: { argb: 'FFFFFFFF' }, bold: true }
-    cell.alignment = { vertical: 'middle', horizontal: 'center' }
-    cell.border = {
-      top: { style: 'thin', color: { argb: 'FFBFDBFE' } },
-      left: { style: 'thin', color: { argb: 'FFBFDBFE' } },
-      bottom: { style: 'thin', color: { argb: 'FFBFDBFE' } },
-      right: { style: 'thin', color: { argb: 'FFBFDBFE' } },
-    }
-  })
+let preguntaCounter = 0
+function newPregunta() {
+  preguntaCounter += 1
+  return { id: `q_${preguntaCounter}_${Date.now()}`, texto: '' }
 }
 
 export default function AdminView() {
   const [selectedDate, setSelectedDate] = useState(todayKey())
   const [status, setStatus] = useState('Listo.')
-  const [nuevaMateria, setNuevaMateria] = useState('')
-  const [selectedMateria, setSelectedMateria] = useState(null)
+  const [nuevoProyecto, setNuevoProyecto] = useState('')
+  const [selectedProyecto, setSelectedProyecto] = useState(null)
+  const [quickOrg, setQuickOrg] = useState('')
+  const [quickProy, setQuickProy] = useState('')
+  const [quickConfirmed, setQuickConfirmed] = useState(false)
+
+  const [surOrg, setSurOrg] = useState('')
+  const [surProy, setSurProy] = useState('')
+  const [surEncuestaId, setSurEncuestaId] = useState(null)
+  const [surConfirmed, setSurConfirmed] = useState(false)
+  const [showSurModal, setShowSurModal] = useState(false)
+  const [surPreguntas, setSurPreguntas] = useState([])
+
   const navigate = useNavigate()
-  const { attendance, resetAttendance, switchInstituto, institutoActivo, materias, addMateria, deleteMateria } = useAttendance()
+  const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, saveEncuesta } = useAttendance()
 
   useEffect(() => {
     const auth = localStorage.getItem('admin-auth')
@@ -55,93 +51,71 @@ export default function AdminView() {
   }, [navigate])
 
   useEffect(() => {
-    setSelectedMateria(null)
-  }, [institutoActivo])
+    setSelectedProyecto(null)
+    setQuickConfirmed(false)
+    setSurConfirmed(false)
+    setSurEncuestaId(null)
+  }, [organizacionActiva])
 
-  const code = dailyCode(selectedDate)
+  const code = dailyCode(organizacionActiva, selectedDate)
   const configuredBaseUrl = import.meta.env.VITE_PUBLIC_BASE_URL?.replace(/\/$/, '')
   const baseUrl = configuredBaseUrl || window.location.origin
 
-  const qrLink = selectedMateria
-    ? `${baseUrl}?instituto=${institutoActivo}&materia=${encodeURIComponent(selectedMateria.nombre)}`
-    : null
+  const qrLink = useMemo(() => {
+    if (selectedProyecto) {
+      return `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(selectedProyecto.nombre)}`
+    }
+    if (quickConfirmed && quickProy) {
+      const orgParam = quickOrg.trim() || organizacionActiva
+      return `${baseUrl}?organizacion=${encodeURIComponent(orgParam)}&proyecto=${encodeURIComponent(quickProy)}`
+    }
+    return null
+  }, [selectedProyecto, quickConfirmed, quickOrg, quickProy, baseUrl, organizacionActiva])
+
+  const hasQR = selectedProyecto || (quickConfirmed && quickProy)
+
+  const surQrLink = useMemo(() => {
+    if (surConfirmed && surEncuestaId) {
+      const orgParam = surOrg.trim() || organizacionActiva
+      const proyParam = surProy.trim()
+      let url = `${baseUrl}/encuesta?organizacion=${encodeURIComponent(orgParam)}&encuesta=${surEncuestaId}`
+      if (proyParam) url += `&proyecto=${encodeURIComponent(proyParam)}`
+      return url
+    }
+    return null
+  }, [surConfirmed, surEncuestaId, surOrg, surProy, baseUrl, organizacionActiva])
 
   const dailyRows = useMemo(
     () => attendance.filter((row) => row.date === selectedDate),
     [attendance, selectedDate],
   )
 
+  const encuestaDailyRows = useMemo(
+    () => respuestasEncuesta.filter((row) => row.date === selectedDate),
+    [respuestasEncuesta, selectedDate],
+  )
+
   async function exportExcel() {
     try {
-      const { default: ExcelJS } = await import('exceljs')
-      const workbook = new ExcelJS.Workbook()
-      workbook.creator = 'Programa ACAR Sabatino'
-      workbook.created = new Date()
-
-      const rowsForDate = attendance.filter(r => r.date === selectedDate)
-      const bySubject = groupBySubject(rowsForDate)
-      const subjects = Object.keys(bySubject).sort()
-
-      if (subjects.length === 0) {
-        setStatus('No hay registros para esta fecha.')
-        return
-      }
-
-      const year = selectedDate.substring(2, 4)
-      const month = selectedDate.substring(5, 7)
-      const day = selectedDate.substring(8, 10)
-      const dateStr = `${day}-${month}-${year}`
-
-      subjects.forEach((subj) => {
-        const rows = bySubject[subj].sort((a, b) => a.time.localeCompare(b.time))
-        const safeSubj = subj.replace(/[*?:\/\\[\]|+]/g, '_').replace(/_+/g, '_').trim()
-        const sheetName = `${safeSubj}-${dateStr}`.substring(0, 31)
-        const ws = workbook.addWorksheet(sheetName)
-
-        ws.mergeCells('A1:I1')
-        ws.getCell('A1').value = `${subj} - ${selectedDate}`
-        ws.getCell('A1').font = { bold: true, color: { argb: 'FF10202F' }, size: 16 }
-        ws.getCell('A1').alignment = { horizontal: 'center' }
-
-        ws.mergeCells('A2:I2')
-        ws.getCell('A2').value = `Programa ACAR Sabatino | Total: ${rows.length}`
-        ws.getCell('A2').font = { bold: true, color: { argb: 'FF1D4ED8' } }
-        ws.getCell('A2').alignment = { horizontal: 'center' }
-
-        const header = ws.addRow(['#', 'Fecha', 'Hora', 'Nombre del joven', 'Cedula', 'Seccion', 'Representante', 'Materia', 'Codigo'])
-        styleHeaderRow(header)
-
-        rows.forEach((row, index) => {
-          const r = ws.addRow([
-            index + 1, row.date, row.time, row.name, row.nationalId, row.seccion || '-', row.representante || '-', row.subject, row.code,
-          ])
-          r.eachCell((cell) => {
-            cell.border = { bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } } }
-            cell.alignment = { vertical: 'middle' }
-          })
-        })
-
-        ws.columns = [
-          { width: 6 }, { width: 12 }, { width: 10 }, { width: 28 }, { width: 14 }, { width: 16 }, { width: 24 }, { width: 20 }, { width: 24 },
-        ]
-        ws.views = [{ state: 'frozen', ySplit: 3 }]
-        ws.autoFilter = { from: 'A3', to: `I${rows.length + 2}` }
-      })
-
-      const buffer = await workbook.xlsx.writeBuffer()
-      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `ACAR-asistencia-${selectedDate}.xlsx`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-      setStatus(`Excel descargado: ${subjects.length} materia${subjects.length === 1 ? '' : 's'}.`)
+      const result = await buildAsistenciaWorkbook(attendance, selectedDate)
+      if (!result) { setStatus('No hay registros para esta fecha.'); return }
+      downloadBuffer(result.buffer, result.filename)
+      setStatus(`Excel descargado: ${result.count} proyecto${result.count === 1 ? '' : 's'}.`)
     } catch (err) {
       console.error(err)
       setStatus('Error al exportar: ' + (err?.message || 'desconocido'))
+    }
+  }
+
+  async function exportExcelEncuesta() {
+    try {
+      const result = await buildEncuestaWorkbook(respuestasEncuesta, selectedDate)
+      if (!result) { setStatus('No hay respuestas de encuesta para esta fecha.'); return }
+      downloadBuffer(result.buffer, result.filename)
+      setStatus(`Excel de encuestas descargado: ${result.count} proyecto(s).`)
+    } catch (err) {
+      console.error(err)
+      setStatus('Error al exportar encuestas: ' + (err?.message || 'desconocido'))
     }
   }
 
@@ -159,28 +133,43 @@ export default function AdminView() {
     navigate('/login')
   }
 
-  async function handleAddMateria(e) {
+  async function handleAddProyecto(e) {
     e.preventDefault()
-    const clean = nuevaMateria.trim()
+    const clean = nuevoProyecto.trim()
     if (!clean) return
     setStatus('Agregando...')
     try {
-      await addMateria(clean)
-      setNuevaMateria('')
-      setStatus('Materia agregada!')
+      await addProyecto(clean)
+      setNuevoProyecto('')
+      setStatus('Proyecto agregado!')
       setTimeout(() => setStatus('Listo.'), 2000)
     } catch (err) {
       setStatus('Error al agregar.')
     }
   }
 
-  async function handleDeleteMateria(id) {
-    await deleteMateria(id)
-    if (selectedMateria?.id === id) setSelectedMateria(null)
+  async function handleDeleteProyecto(id) {
+    await deleteProyecto(id)
+    if (selectedProyecto?.id === id) setSelectedProyecto(null)
+  }
+
+  function handleQuickConfirm() {
+    if (!quickProy.trim()) return
+    setQuickConfirmed(true)
+    setSelectedProyecto(null)
+    setStatus('QR generado!')
+    setTimeout(() => setStatus('Listo.'), 2000)
   }
 
   function openManualForm() {
-    const url = `${baseUrl}?instituto=${institutoActivo}${selectedMateria ? `&materia=${encodeURIComponent(selectedMateria.nombre)}` : ''}`
+    if (!hasQR) return
+    let url
+    if (selectedProyecto) {
+      url = `${baseUrl}?organizacion=${organizacionActiva}&proyecto=${encodeURIComponent(selectedProyecto.nombre)}`
+    } else {
+      const orgParam = quickOrg.trim() || organizacionActiva
+      url = `${baseUrl}?organizacion=${encodeURIComponent(orgParam)}&proyecto=${encodeURIComponent(quickProy)}`
+    }
     window.open(url, '_blank')
   }
 
@@ -192,26 +181,121 @@ export default function AdminView() {
     }
   }
 
+  function openSurManualForm() {
+    if (!surQrLink) return
+    window.open(surQrLink, '_blank')
+  }
+
+  function copySurLink() {
+    if (surQrLink) {
+      navigator.clipboard.writeText(surQrLink)
+      setStatus('Enlace de encuesta copiado!')
+      setTimeout(() => setStatus('Listo.'), 2000)
+    }
+  }
+
+  function openSurModal() {
+    setSurPreguntas([newPregunta()])
+    setShowSurModal(true)
+  }
+
+  function addSurPregunta() {
+    setSurPreguntas(prev => [...prev, newPregunta()])
+  }
+
+  function removeSurPregunta(id) {
+    setSurPreguntas(prev => prev.filter(p => p.id !== id))
+  }
+
+  function updateSurPregunta(id, texto) {
+    setSurPreguntas(prev => prev.map(p => p.id === id ? { ...p, texto } : p))
+  }
+
+  async function finalizeEncuesta() {
+    const validas = surPreguntas.filter(p => p.texto.trim())
+    if (validas.length === 0) {
+      setStatus('Agrega al menos una pregunta.')
+      return
+    }
+    try {
+      const id = await saveEncuesta(validas.map(p => ({ texto: p.texto.trim() })))
+      setSurEncuestaId(id)
+      setShowSurModal(false)
+      setStatus('Encuesta guardada! Ahora genera el QR.')
+      setTimeout(() => setStatus('Listo.'), 3000)
+    } catch (err) {
+      setStatus('Error al guardar encuesta.')
+    }
+  }
+
+  function handleSurConfirm() {
+    if (!surProy.trim() || !surEncuestaId) return
+    setSurConfirmed(true)
+    setStatus('QR de encuesta generado!')
+    setTimeout(() => setStatus('Listo.'), 2000)
+  }
+
   return (
     <main className="admin-shell">
+      {showSurModal && (
+        <div className="modal-overlay" onClick={() => setShowSurModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Personalizar Encuesta</h2>
+              <button className="modal-close" onClick={() => setShowSurModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="modal-desc">Agrega las preguntas que deseas incluir en la encuesta exploratoria.</p>
+              {surPreguntas.map((p, i) => (
+                <div key={p.id} className="modal-pregunta-row">
+                  <span className="modal-pregunta-num">{i + 1}.</span>
+                  <input
+                    type="text"
+                    className="modal-pregunta-input"
+                    placeholder={`Escribe la pregunta ${i + 1}...`}
+                    value={p.texto}
+                    onChange={(e) => updateSurPregunta(p.id, e.target.value)}
+                  />
+                  <button className="modal-pregunta-remove" onClick={() => removeSurPregunta(p.id)} type="button">
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+              <button className="modal-add-btn" onClick={addSurPregunta} type="button">
+                <Plus size={16} />
+                Agregar pregunta
+              </button>
+            </div>
+            <div className="modal-footer">
+              <button className="primary modal-finalize" onClick={finalizeEncuesta} type="button">
+                <Check size={16} />
+                Finalizar encuesta
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header className="admin-header">
-        <h1>Panel de Control - Programa ACAR Sabatino</h1>
+        <h1>Panel de Control - Sistema Automático de Registro Vianntto</h1>
         <button className="logout-btn" onClick={logout}>
           <LogOut size={18} />
           Salir
         </button>
       </header>
 
-      <section className="instituto-bar">
+      <section className="organizacion-bar">
         <Building2 size={18} />
-        <span>Instituto:</span>
+        <span>Organización:</span>
         <select
-          value={institutoActivo}
-          onChange={(e) => switchInstituto(e.target.value)}
+          value={organizacionActiva}
+          onChange={(e) => switchOrganizacion(e.target.value)}
         >
-          {INSTITUTOS.map((inst) => (
-            <option key={inst.id} value={inst.id}>
-              {inst.nombre}
+          {ORGANIZACIONES.map((org) => (
+            <option key={org.id} value={org.id}>
+              {org.nombre}
             </option>
           ))}
         </select>
@@ -219,20 +303,52 @@ export default function AdminView() {
 
       <section className="hero-panel">
         <div className="hero-copy">
-          {selectedMateria ? (
+          {hasQR ? (
             <>
-              <h1>QR - {selectedMateria.nombre}</h1>
-              <p>Genera el codigo QR para que los jovenes se registren en esta materia.</p>
+              <h1>QR - {selectedProyecto ? selectedProyecto.nombre : quickProy}</h1>
+              <p>Escanea el codigo QR para registrar participantes en este proyecto.</p>
             </>
           ) : (
             <>
-              <h1>Generador de QR - ACAR</h1>
-              <p>Selecciona una materia de la lista para generar el codigo QR.</p>
+              <h1>Generador de QR</h1>
+              <p>Selecciona un proyecto de la lista o genera uno rapido abajo.</p>
             </>
           )}
+
+          <div className="quick-qr-section">
+            <div className="quick-qr-field">
+              <label>Organización</label>
+              <input
+                type="text"
+                placeholder="Escribe el nombre exacto..."
+                value={quickOrg}
+                onChange={(e) => { setQuickOrg(e.target.value); setQuickConfirmed(false) }}
+              />
+              {quickOrg && <span className="quick-label-preview">{quickOrg}</span>}
+            </div>
+            <div className="quick-qr-field">
+              <label>Proyecto</label>
+              <input
+                type="text"
+                placeholder="Escribe el nombre exacto..."
+                value={quickProy}
+                onChange={(e) => { setQuickProy(e.target.value); setQuickConfirmed(false) }}
+              />
+              {quickProy && <span className="quick-label-preview">{quickProy}</span>}
+            </div>
+            <button
+              type="button"
+              className="primary quick-confirm-btn"
+              disabled={!quickProy.trim() || quickConfirmed}
+              onClick={handleQuickConfirm}
+            >
+              <Check size={16} />
+              {quickConfirmed ? 'Generado' : 'Generar QR'}
+            </button>
+          </div>
         </div>
 
-        {selectedMateria ? (
+        {hasQR ? (
         <div className="qr-panel" aria-label="Codigo QR">
           <div className="qr-heading">
             <QrCode size={22} />
@@ -253,41 +369,128 @@ export default function AdminView() {
         ) : (
         <div className="qr-panel-empty">
           <QrCode size={40} />
-          <p>Selecciona una materia para generar el QR</p>
+          <p>Selecciona o escribe un proyecto para generar el QR</p>
         </div>
         )}
 
-        <div className="materias-panel">
-          <h3>Materias</h3>
-          <form className="add-materia-form" onSubmit={handleAddMateria}>
+        <div className="proyectos-panel">
+          <h3>PROYECTOS</h3>
+          <form className="add-proyecto-form" onSubmit={handleAddProyecto}>
             <input
               type="text"
-              placeholder="Nueva materia..."
-              value={nuevaMateria}
-              onChange={(e) => setNuevaMateria(e.target.value)}
+              placeholder="Nuevo proyecto..."
+              value={nuevoProyecto}
+              onChange={(e) => setNuevoProyecto(e.target.value)}
             />
             <button type="submit">
               <Plus size={16} />
               Agregar
             </button>
           </form>
-          <ul className="materias-list">
-            {materias.map((m) => (
-              <li key={m.id}>
+          <ul className="proyectos-list">
+            {proyectos.map((p) => (
+              <li key={p.id}>
                 <button
                   type="button"
-                  className={`materia-btn ${selectedMateria?.id === m.id ? 'active' : ''}`}
-                  onClick={() => setSelectedMateria(m)}
+                  className={`proyecto-btn ${selectedProyecto?.id === p.id ? 'active' : ''}`}
+                  onClick={() => { setSelectedProyecto(p); setQuickConfirmed(false) }}
                 >
-                  {m.nombre}
+                  {p.nombre}
                 </button>
-                <button className="delete-materia" onClick={() => handleDeleteMateria(m.id)} type="button">
+                <button className="delete-proyecto" onClick={() => handleDeleteProyecto(p.id)} type="button">
                   <Trash2 size={14} />
                 </button>
               </li>
             ))}
-            {!materias.length && <li className="empty-materias">Sin materias. Escribe y presiona Enter.</li>}
+            {!proyectos.length && <li className="empty-proyectos">Sin proyectos. Escribe y presiona Enter.</li>}
           </ul>
+        </div>
+      </section>
+
+      <section className="encuesta-panel">
+        <div className="encuesta-copy">
+          <h2>Encuesta Exploratoria</h2>
+          <p>Genera el QR para que los participantes llenen la encuesta de satisfaccion.</p>
+
+          <div className="quick-qr-section">
+            <div className="quick-qr-field">
+              <label>Organización</label>
+              <input
+                type="text"
+                placeholder="Escribe el nombre exacto..."
+                value={surOrg}
+                onChange={(e) => { setSurOrg(e.target.value); setSurConfirmed(false) }}
+              />
+              {surOrg && <span className="quick-label-preview">{surOrg}</span>}
+            </div>
+            <div className="quick-qr-field">
+              <label>Proyecto</label>
+              <input
+                type="text"
+                placeholder="Escribe el nombre exacto..."
+                value={surProy}
+                onChange={(e) => { setSurProy(e.target.value); setSurConfirmed(false) }}
+              />
+              {surProy && <span className="quick-label-preview">{surProy}</span>}
+            </div>
+            <button
+              type="button"
+              className="primary quick-confirm-btn"
+              disabled={!surProy.trim() || !surEncuestaId || surConfirmed}
+              onClick={handleSurConfirm}
+            >
+              <Check size={16} />
+              {surConfirmed ? 'Generado' : 'Generar QR'}
+            </button>
+          </div>
+
+          <div className="encuesta-actions">
+            <button type="button" className="primary" onClick={openSurModal} style={{ width: '100%', justifyContent: 'center' }}>
+              <Settings size={16} />
+              Personalizar Encuesta
+            </button>
+            {surEncuestaId && (
+              <span className="encuesta-status-badge">Encuesta configurada</span>
+            )}
+          </div>
+        </div>
+
+        {surQrLink ? (
+        <div className="qr-panel" aria-label="QR Encuesta">
+          <div className="qr-heading">
+            <QrCode size={22} />
+            <span>Encuesta: {surProy}</span>
+          </div>
+          <QRCodeCanvas value={surQrLink} size={190} includeMargin />
+          <p className="qr-link">{surQrLink}</p>
+          <div className="qr-actions">
+            <button type="button" className="qr-action-btn" onClick={openSurManualForm} title="Abrir encuesta">
+              <ExternalLink size={16} />
+              Abrir
+            </button>
+            <button type="button" className="qr-action-btn" onClick={copySurLink} title="Copiar enlace">
+              <Copy size={16} />
+            </button>
+          </div>
+        </div>
+        ) : (
+        <div className="qr-panel-empty">
+          <QrCode size={40} />
+          <p>Configura la encuesta y genera el QR</p>
+        </div>
+        )}
+
+        <div className="encuesta-preview-panel">
+          <h3>PREGUNTAS</h3>
+          {surEncuestaId ? (
+            <div className="encuesta-listado-ok">
+              Encuesta configurada en Firebase
+            </div>
+          ) : (
+            <div className="empty-proyectos">
+              <p>Haz clic en "Personalizar Encuesta" para agregar preguntas.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -303,7 +506,11 @@ export default function AdminView() {
         </button>
         <button type="button" onClick={exportExcel}>
           <Download size={18} />
-          Descargar Excel
+          Excel Asistencia
+        </button>
+        <button type="button" onClick={exportExcelEncuesta}>
+          <Download size={18} />
+          Excel Encuestas
         </button>
         <button type="button" className="danger" onClick={handleResetToday} disabled={!dailyRows.length}>
           <Trash2 size={18} />
@@ -316,7 +523,7 @@ export default function AdminView() {
           <div>
             <h2>Lista del dia</h2>
             <p>
-              {dailyRows.length} joven{dailyRows.length === 1 ? '' : 'es'} registrado{dailyRows.length === 1 ? '' : 's'}
+              {dailyRows.length} participante{dailyRows.length === 1 ? '' : 's'} registrado{dailyRows.length === 1 ? '' : 's'}
             </p>
           </div>
           <span>{selectedDate}</span>
@@ -328,10 +535,10 @@ export default function AdminView() {
               <tr>
                 <th>Hora</th>
                 <th>Nombre</th>
-                <th>Cedula</th>
-                <th>Seccion</th>
-                <th>Representante</th>
-                <th>Materia</th>
+                <th>Cédula</th>
+                <th>Departamento</th>
+                <th>Organización</th>
+                <th>Proyecto</th>
               </tr>
             </thead>
             <tbody>
@@ -340,14 +547,62 @@ export default function AdminView() {
                   <td>{row.time}</td>
                   <td>{row.name}</td>
                   <td>{row.nationalId}</td>
-                  <td>{row.seccion || '-'}</td>
-                  <td>{row.representante || '-'}</td>
-                  <td>{row.subject}</td>
+                  <td>{row.departamento || '-'}</td>
+                  <td>{row.organizacion || '-'}</td>
+                  <td>{row.proyecto}</td>
                 </tr>
               ))}
               {!dailyRows.length && (
                 <tr>
                   <td colSpan="6" className="empty">Sin registros para esta fecha.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="list-panel" style={{ marginTop: 22 }}>
+        <div className="list-title">
+          <div>
+            <h2>Respuestas de Encuesta</h2>
+            <p>
+              {encuestaDailyRows.length} respuesta{encuestaDailyRows.length === 1 ? '' : 's'}
+            </p>
+          </div>
+          <span>{selectedDate}</span>
+        </div>
+
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Participante</th>
+                <th>Proyecto</th>
+                <th>Respuestas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {encuestaDailyRows.map((row) => (
+                <tr key={row.id}>
+                  <td>{row.time}</td>
+                  <td>{row.participante || '-'}</td>
+                  <td>{row.proyecto || '-'}</td>
+                  <td className="respuestas-cell">
+                    {row.respuestas && Object.keys(row.respuestas).length > 0 ? (
+                      <ul className="respuestas-list-inline">
+                        {Object.entries(row.respuestas).map(([key, val], idx) => (
+                          <li key={key}><strong>Q{idx + 1}:</strong> {String(val).substring(0, 120)}</li>
+                        ))}
+                      </ul>
+                    ) : '-'}
+                  </td>
+                </tr>
+              ))}
+              {!encuestaDailyRows.length && (
+                <tr>
+                  <td colSpan="4" className="empty">Sin respuestas de encuesta para esta fecha.</td>
                 </tr>
               )}
             </tbody>

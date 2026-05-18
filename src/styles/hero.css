@@ -1,0 +1,226 @@
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px 240px;
+  gap: 24px;
+  align-items: stretch;
+  color: #CCD9E1;
+  background:
+    linear-gradient(135deg, rgba(65, 116, 144, 0.9), rgba(91, 132, 161, 0.95)),
+    url('/bg-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  padding: 34px;
+  box-shadow: 0 20px 45px rgba(65, 116, 144, 0.2);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.hero-panel:hover {
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.22);
+  transform: translateY(-2px);
+}
+
+.hero-panel > .hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 740px;
+}
+
+.hero-copy p {
+  max-width: 660px;
+  color: #dbeafe;
+  font-size: 18px;
+}
+
+@media (max-width: 900px) {
+  .hero-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+}
+
+/* === Encuesta Panel === */
+.encuesta-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px 240px;
+  gap: 24px;
+  align-items: stretch;
+  color: #CCD9E1;
+  background:
+    linear-gradient(135deg, rgba(65, 116, 144, 0.9), rgba(91, 132, 161, 0.95)),
+    url('/bg-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  padding: 34px;
+  margin-top: 22px;
+  box-shadow: 0 20px 45px rgba(65, 116, 144, 0.2);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.encuesta-panel:hover {
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.22);
+  transform: translateY(-2px);
+}
+
+.encuesta-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 740px;
+}
+
+.encuesta-copy h2 {
+  color: #ffffff;
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.encuesta-copy > p {
+  color: #dbeafe;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.encuesta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.encuesta-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bbf7d0;
+  text-align: center;
+}
+
+.encuesta-preview-panel {
+  background: #ffffff;
+  border: 1px solid #ACC2CF;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #417490;
+  overflow-y: auto;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.encuesta-preview-panel:hover {
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
+}
+
+.encuesta-preview-panel h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #417490;
+  font-weight: 700;
+}
+
+.encuesta-preguntas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.encuesta-listado-ok {
+  padding: 12px;
+  background: #E9EEF3;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #417490;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .encuesta-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+}
+
+/* === Quick QR === */
+.quick-qr-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+}
+
+.quick-qr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-qr-field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quick-qr-field input {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-family: 'Sora', sans-serif;
+  color: #1e293b;
+  transition: all 0.25s ease;
+}
+
+.quick-qr-field input:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+}
+
+.quick-label-preview {
+  font-size: 13px;
+  font-weight: 700;
+  color: #dbeafe;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  margin-top: 2px;
+  word-break: break-all;
+}
+
+.quick-confirm-btn {
+  margin-top: 4px;
+  justify-content: center;
+  width: 100%;
+  padding: 10px !important;
+}
+
+.quick-confirm-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}

@@ -1,49 +1,34 @@
-# Programa ACAR Sabatino - Registro de Asistencia
+# Sistema Automático de Registro Vianntto
 
-Sistema de registro de asistencia por codigo QR para el Programa ACAR Sabatino.
+Sistema de registro por código QR con panel de administración en tiempo real.
 
 ---
 
 ## Acceso
 
-- **App:** https://acar-asistencia.vercel.app/
-- **Admin:** https://acar-asistencia.vercel.app/login
-- **Contrasena:** `acar2026`
+- **App:** Pendiente (nuevo proyecto Firebase)
+- **Admin:** Pendiente (nuevo proyecto Firebase)/login
+- **Contraseña:** `vianntto2026`
 
 ---
 
 ## Campos del registro
 
-- Nombre del joven
-- Numero de Cedula (evita duplicados el mismo dia)
-- Seccion / Grupo
-- Nombre del representante
-- Materia (fija desde el QR)
+- Nombre
+- Cédula (evita duplicados el mismo día)
+- Departamento al que pertenece
+- Organización a la que pertenece
+- Proyecto (fijo desde el QR)
 
 ---
 
 ## Funcionalidades
 
-- QR por materia
-- Evita registro duplicado (misma cedula + misma fecha)
-- Exportacion a Excel con una hoja por materia
-- Panel docente con tabla en tiempo real
-- Status flotante debajo de la lista del dia
-
----
-
-## Paleta de colores
-
-| Color | Hex |
-|-------|-----|
-| Blanco oseo | #FFFFFF |
-| Gris azulado claro | #E9EEF3 |
-| Gris azulado medio | #CCD9E1 |
-| Azul grisaceo | #ACC2CF |
-| Azul gris | #8EABC0 |
-| Azul medio | #7197AE |
-| Azul profundo | #5B84A1 |
-| Azul oscuro | #417490 |
+- QR por proyecto
+- Evita registro duplicado (misma cédula + misma fecha)
+- Exportación a Excel con una hoja por proyecto
+- Panel facilitador con tabla en tiempo real
+- Estado flotante debajo de la lista del día
 
 ---
 
@@ -51,12 +36,12 @@ Sistema de registro de asistencia por codigo QR para el Programa ACAR Sabatino.
 
 ```bash
 npm install          # Instalar dependencias
-npm run dev         # Desarrollo
-npm run build       # Produccion
+npm run dev          # Desarrollo
+npm run build        # Producción
 ```
 
 ---
 
-## Documentacion adicional
+## Documentación adicional
 
-Ver `BITACORA.md` para historial completo de desarrollo, arquitectura y decisiones tecnicas.
+Ver `BITACORA.md` para historial completo de desarrollo, arquitectura y decisiones técnicas.

@@ -1,29 +1,29 @@
 import { useState, useEffect } from 'react'
 import { Check, UserCheck } from 'lucide-react'
-import { useAttendance, todayKey, dailyCode, INSTITUTOS } from '../context/AttendanceContext'
+import { useAttendance, todayKey, dailyCode, ORGANIZACIONES } from '../context/AttendanceContext'
 import '../App.css'
 
 export default function StudentView() {
   const { registerAttendance } = useAttendance()
 
   const urlParams = new URLSearchParams(window.location.search)
-  const materiaParam = urlParams.get('materia') || ''
-  const institutoQR = urlParams.get('instituto')
+  const proyectoParam = urlParams.get('proyecto') || ''
+  const organizacionQR = urlParams.get('organizacion')
 
   const [form, setForm] = useState({
     name: '',
     nationalId: '',
-    seccion: '',
-    representante: '',
+    departamento: '',
+    organizacion: '',
   })
   const [status, setStatus] = useState('')
   const [registered, setRegistered] = useState(false)
   const [registeredName, setRegisteredName] = useState('')
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const code = dailyCode(todayKey())
-  const institutoInfo = INSTITUTOS.find(i => i.id === institutoQR)
-  const institutoNombre = institutoInfo?.nombre || 'Programa ACAR Sabatino'
+  const code = dailyCode(organizacionQR, todayKey())
+  const orgInfo = ORGANIZACIONES.find(o => o.id === organizacionQR)
+  const orgNombre = orgInfo?.nombre || 'Sistema Automático de Registro Vianntto'
 
   useEffect(() => {
     if (registered && !showSuccess) {
@@ -31,16 +31,16 @@ export default function StudentView() {
     }
   }, [registered, showSuccess])
 
-  if (!materiaParam) {
+  if (!proyectoParam) {
     return (
       <main className="student-view-glass">
         <div className="student-form-container glass-fade-in">
           <div className="student-brand">
             <UserCheck size={20} />
-            <span>{institutoNombre}</span>
+            <span>{orgNombre}</span>
           </div>
-          <h1>Registro de Asistencia</h1>
-          <p className="student-subtitle">Este enlace no tiene una materia asignada. Solicita el codigo QR correcto.</p>
+          <h1>Registro</h1>
+          <p className="student-subtitle">Este enlace no tiene un proyecto asignado. Solicita el codigo QR correcto.</p>
         </div>
       </main>
     )
@@ -50,11 +50,11 @@ export default function StudentView() {
     e.preventDefault()
     const cleanName = form.name.trim()
     const cleanId = form.nationalId.trim()
-    const cleanSeccion = form.seccion.trim()
-    const cleanRep = form.representante.trim()
+    const cleanDepto = form.departamento.trim()
+    const cleanOrg = form.organizacion.trim()
 
-    if (!cleanName || !cleanId || !cleanSeccion) {
-      setStatus('Completa todos los campos.')
+    if (!cleanName || !cleanId || !cleanDepto) {
+      setStatus('Completa todos los campos requeridos.')
       return
     }
 
@@ -62,11 +62,11 @@ export default function StudentView() {
     try {
       await registerAttendance({
         name: cleanName,
-        subject: materiaParam,
+        proyecto: proyectoParam,
         nationalId: cleanId,
-        seccion: cleanSeccion,
-        representante: cleanRep,
-        instituto: institutoQR,
+        departamento: cleanDepto,
+        organizacion: cleanOrg,
+        orgId: organizacionQR,
       })
       setRegisteredName(cleanName)
       setRegistered(true)
@@ -87,17 +87,17 @@ return (
           <div>
             <div className="student-brand">
               <UserCheck size={20} />
-              <span>{institutoNombre}</span>
+              <span>{orgNombre}</span>
             </div>
-            <div className="student-materia-header" style={{ margin: '8px 0' }}>
-              {materiaParam}
+            <div className="student-proyecto-header" style={{ margin: '8px 0' }}>
+              {proyectoParam}
             </div>
-            <h1 style={{ margin: '8px 0 4px' }}>Registro de Asistencia</h1>
+            <h1 style={{ margin: '8px 0 4px' }}>Registro</h1>
             <div className="student-form-divider" style={{ margin: '12px 0' }} />
 
             <form className="student-form-glass" onSubmit={handleSubmit}>
               <label>
-                Nombre del joven
+                Nombre
                 <input
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
@@ -106,7 +106,7 @@ return (
                 />
               </label>
               <label>
-                Numero de Numero de Cedula
+                Cédula
                 <input
                   value={form.nationalId}
                   onChange={(e) => setForm((f) => ({ ...f, nationalId: e.target.value }))}
@@ -115,29 +115,25 @@ return (
                 />
               </label>
               <label>
-                Seccion / Grupo
+                Departamento al que pertenece
                 <input
-                  value={form.seccion}
-                  onChange={(e) => setForm((f) => ({ ...f, seccion: e.target.value }))}
-                  placeholder="Ej. Sabatino A"
+                  value={form.departamento}
+                  onChange={(e) => setForm((f) => ({ ...f, departamento: e.target.value }))}
+                  placeholder="Ej. Administración"
                   required
                 />
               </label>
-              <div className="representante-badge">
-                <UserCheck size={14} />
-                Datos del Representante
-              </div>
               <label>
-                Nombre del representante
+                Organización a la que pertenece
                 <input
-                  value={form.representante}
-                  onChange={(e) => setForm((f) => ({ ...f, representante: e.target.value }))}
-                  placeholder="Ej. Maria Perez"
+                  value={form.organizacion}
+                  onChange={(e) => setForm((f) => ({ ...f, organizacion: e.target.value }))}
+                  placeholder="Ej. Mi Organización"
                 />
               </label>
               <button className="primary" type="submit">
                 <Check size={18} />
-                Registrar asistencia
+                Registrar
               </button>
               {status && (
                 <div className={status.includes('ya fue') ? 'duplicate-error' : 'status'}>
@@ -158,9 +154,9 @@ return (
             <div className="success-check-circle" />
             <h1>Registrado!</h1>
             <p className="success-name-glass">{registeredName}</p>
-            <p className="success-message-glass">Tu asistencia fue registrada exitosamente.</p>
+            <p className="success-message-glass">Tu registro fue exitoso.</p>
             <div className="success-badge-glass">
-              <span className="success-label">Codigo</span>
+              <span className="success-label">Código</span>
               <span className="success-code-glass">{code}</span>
             </div>
           </div>

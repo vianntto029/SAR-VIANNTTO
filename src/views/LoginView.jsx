@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LogIn, Lock } from 'lucide-react'
+import { ADMIN_PASSWORD } from '../utils/constants'
 import '../App.css'
-
-const ADMIN_PASSWORD = 'acar2026'
 
 export default function LoginView() {
   const [password, setPassword] = useState('')
@@ -27,7 +26,7 @@ export default function LoginView() {
         <div className="login-lock-icon">
           <Lock size={24} />
         </div>
-        <h1>Programa ACAR Sabatino</h1>
+        <h1>Sistema Automático de Registro Vianntto</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
             Contraseña

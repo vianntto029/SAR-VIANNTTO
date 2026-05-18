@@ -1,0 +1,11 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Sora', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFFFFF 0%, #E9EEF3 14%, #CCD9E1 28%, #ACC2CF 42%, #8EABC0 56%, #7197AE 70%, #5B84A1 84%, #417490 100%);
+}
+
+p { margin: 0; }
