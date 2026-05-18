@@ -108,7 +108,7 @@ export async function buildAsistenciaWorkbook(attendance, selectedDate) {
   return { buffer, filename: `${SHORT_CODE}-asistencia-${selectedDate}.xlsx`, count: proyectos.length }
 }
 
-export async function buildEncuestaWorkbook(respuestasEncuesta, selectedDate) {
+export async function buildEncuestaWorkbook(respuestasEncuesta, selectedDate, encuestas = []) {
   const { default: ExcelJS } = await import('exceljs')
   const workbook = new ExcelJS.Workbook()
   workbook.creator = 'Sistema Automático de Registro Vianntto'
@@ -152,9 +152,11 @@ export async function buildEncuestaWorkbook(respuestasEncuesta, selectedDate) {
     const respKeys = [...allRespKeys].sort()
 
     const firstPreguntas = rows.find(r => r.preguntas)?.preguntas || []
+    const encuestaData = !firstPreguntas.length ? encuestas.find(e => e.id === rows[0]?.encuestaId) : null
+    const preguntasSrc = firstPreguntas.length ? firstPreguntas : (encuestaData?.preguntas || [])
     const headerNames = respKeys.map((k) => {
       const idx = parseInt(k, 10)
-      const q = firstPreguntas[idx]
+      const q = preguntasSrc[idx]
       return q?.texto || q || `Respuesta ${idx + 1}`
     })
 

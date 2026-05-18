@@ -379,6 +379,7 @@ button:disabled {
 }
 
 .danger { color: #b42318; }
+.warning { color: #8b7a74; }
 
 .primary {
   justify-content: center;

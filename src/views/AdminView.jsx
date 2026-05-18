@@ -26,11 +26,22 @@ function newPregunta() {
   return { id: `q_${preguntaCounter}_${Date.now()}`, texto: '' }
 }
 
+function loadPersist(key) {
+  try { return JSON.parse(localStorage.getItem(key)) } catch { return null }
+}
+function savePersist(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)) } catch {}
+}
+function clearPersist(keys) {
+  keys.forEach(k => { try { localStorage.removeItem(k) } catch {} })
+}
+
 export default function AdminView() {
   const [selectedDate, setSelectedDate] = useState(todayKey())
   const [status, setStatus] = useState('Listo.')
   const [nuevoProyecto, setNuevoProyecto] = useState('')
   const [selectedProyecto, setSelectedProyecto] = useState(null)
+
   const [quickOrg, setQuickOrg] = useState('')
   const [quickProy, setQuickProy] = useState('')
   const [quickConfirmed, setQuickConfirmed] = useState(false)
@@ -44,7 +55,9 @@ export default function AdminView() {
   const [surPreguntasGuardadas, setSurPreguntasGuardadas] = useState([])
 
   const navigate = useNavigate()
-  const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, saveEncuesta } = useAttendance()
+  const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, encuestas, saveEncuesta } = useAttendance()
+
+  const STORE_NS = `qr_${organizacionActiva}`
 
   useEffect(() => {
     const auth = localStorage.getItem('admin-auth')
@@ -53,10 +66,49 @@ export default function AdminView() {
 
   useEffect(() => {
     setSelectedProyecto(null)
-    setQuickConfirmed(false)
-    setSurConfirmed(false)
-    setSurEncuestaId(null)
+    const saved = loadPersist(STORE_NS)
+    if (saved) {
+      if (saved.quickOrg) setQuickOrg(saved.quickOrg)
+      if (saved.quickProy) setQuickProy(saved.quickProy)
+      if (saved.quickConfirmed) setQuickConfirmed(true)
+      if (saved.surOrg) setSurOrg(saved.surOrg)
+      if (saved.surProy) setSurProy(saved.surProy)
+      if (saved.surEncuestaId) setSurEncuestaId(saved.surEncuestaId)
+      if (saved.surConfirmed) setSurConfirmed(true)
+      if (saved.surPreguntasGuardadas) setSurPreguntasGuardadas(saved.surPreguntasGuardadas)
+    }
   }, [organizacionActiva])
+
+  function persistQR() {
+    savePersist(STORE_NS, {
+      quickOrg, quickProy, quickConfirmed,
+      surOrg, surProy, surEncuestaId, surConfirmed, surPreguntasGuardadas,
+    })
+  }
+
+  function refreshQR() {
+    const full = loadPersist(STORE_NS)
+    const cleaned = { ...(full || {}), quickOrg: '', quickProy: '', quickConfirmed: false }
+    savePersist(STORE_NS, cleaned)
+    setQuickOrg('')
+    setQuickProy('')
+    setQuickConfirmed(false)
+    setStatus('QR de lista reiniciado.')
+    setTimeout(() => setStatus('Listo.'), 2000)
+  }
+
+  function refreshSur() {
+    const full = loadPersist(STORE_NS)
+    const cleaned = { ...(full || {}), surOrg: '', surProy: '', surEncuestaId: null, surConfirmed: false, surPreguntasGuardadas: [] }
+    savePersist(STORE_NS, cleaned)
+    setSurOrg('')
+    setSurProy('')
+    setSurEncuestaId(null)
+    setSurConfirmed(false)
+    setSurPreguntasGuardadas([])
+    setStatus('Encuesta reiniciada.')
+    setTimeout(() => setStatus('Listo.'), 2000)
+  }
 
   const code = dailyCode(organizacionActiva, selectedDate)
   const configuredBaseUrl = import.meta.env.VITE_PUBLIC_BASE_URL?.replace(/\/$/, '')
@@ -108,7 +160,7 @@ export default function AdminView() {
 
   async function exportExcelEncuesta() {
     try {
-      const result = await buildEncuestaWorkbook(respuestasEncuesta, selectedDate)
+      const result = await buildEncuestaWorkbook(respuestasEncuesta, selectedDate, encuestas)
       if (!result) { setStatus('No hay respuestas de encuesta para esta fecha.'); return }
       downloadBuffer(result.buffer, result.filename)
       setStatus(`Excel de encuestas descargado: ${result.count} proyecto(s).`)
@@ -156,6 +208,7 @@ export default function AdminView() {
     if (!quickProy.trim()) return
     setQuickConfirmed(true)
     setSelectedProyecto(null)
+    persistQR()
     setStatus('QR generado!')
     setTimeout(() => setStatus('Listo.'), 2000)
   }
@@ -220,6 +273,7 @@ export default function AdminView() {
       setSurEncuestaId(id)
       setSurPreguntasGuardadas(validas.map(p => p.texto.trim()))
       setShowSurModal(false)
+      persistQR()
       setStatus('Encuesta guardada! Ahora genera el QR.')
       setTimeout(() => setStatus('Listo.'), 3000)
     } catch (err) {
@@ -230,6 +284,7 @@ export default function AdminView() {
   function handleSurConfirm() {
     if (!surProy.trim() || !surEncuestaId) return
     setSurConfirmed(true)
+    persistQR()
     setStatus('QR de encuesta generado!')
     setTimeout(() => setStatus('Listo.'), 2000)
   }
@@ -356,7 +411,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>{code}</span>
           </div>
-          <QRCodeCanvas value={qrLink} size={190} includeMargin />
+          <QRCodeCanvas value={qrLink} size={190} includeMargin fgColor="#1b1d1b" />
           <p className="qr-link">{qrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openManualForm} title="Abrir formulario">
@@ -463,7 +518,7 @@ export default function AdminView() {
             <QrCode size={22} />
             <span>Encuesta: {surProy}</span>
           </div>
-          <QRCodeCanvas value={surQrLink} size={190} includeMargin />
+          <QRCodeCanvas value={surQrLink} size={190} includeMargin fgColor="#1b1d1b" />
           <p className="qr-link">{surQrLink}</p>
           <div className="qr-actions">
             <button type="button" className="qr-action-btn" onClick={openSurManualForm} title="Abrir encuesta">
@@ -512,6 +567,14 @@ export default function AdminView() {
         <button type="button" onClick={() => setSelectedDate(todayKey())}>
           <RefreshCcw size={18} />
           Hoy
+        </button>
+        <button type="button" className="warning" onClick={refreshQR} disabled={!quickConfirmed}>
+          <RefreshCcw size={18} />
+          Refrescar QR
+        </button>
+        <button type="button" className="warning" onClick={refreshSur} disabled={!surConfirmed}>
+          <RefreshCcw size={18} />
+          Refrescar Encuesta
         </button>
         <button type="button" onClick={exportExcel}>
           <Download size={18} />
