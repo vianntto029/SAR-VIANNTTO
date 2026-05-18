@@ -161,13 +161,14 @@ export function AttendanceProvider({ children }) {
     return null
   }
 
-  async function submitEncuestaResponse({ encuestaId, respuestas, proyecto, participante, orgId }) {
+  async function submitEncuestaResponse({ encuestaId, respuestas, preguntas, proyecto, participante, orgId }) {
     const target = orgId || organizacionActiva
     const date = todayKey()
     const record = {
       encuestaId,
       proyecto: proyecto || '',
       respuestas,
+      preguntas,
       date,
       time: currentTime(),
       participante: participante || '',

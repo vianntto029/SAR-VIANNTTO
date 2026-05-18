@@ -77,7 +77,7 @@ export default function SurveyView() {
     if (vacias) { setStatus('Responde todas las preguntas.'); return }
     setStatus('Enviando...')
     try {
-      await submitEncuestaResponse({ encuestaId, respuestas, proyecto: proyectoParam, participante: cleanNombre, orgId })
+      await submitEncuestaResponse({ encuestaId, respuestas, preguntas, proyecto: proyectoParam, participante: cleanNombre, orgId })
       setRegistered(true)
       setStatus('')
     } catch { setStatus('Error al enviar. Intenta de nuevo.') }
