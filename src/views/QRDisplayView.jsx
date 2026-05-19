@@ -18,34 +18,31 @@ function surQrUrl(orgId, encuestaId, proyecto) {
 export default function QRDisplayView() {
   const { organizacionActiva, proyectos, encuestas } = useAttendance()
   const orgInfo = ORGANIZACIONES.find(o => o.id === organizacionActiva)
-  const orgNombre = orgInfo?.nombre || organizacionActiva
+  const orgNombre = orgInfo?.nombre || 'Sistema Automático de Registro Vianntto'
 
   const ultimaEncuesta = encuestas.length > 0 ? encuestas[encuestas.length - 1] : null
 
   return (
     <main className="qr-display-shell">
-      <div className="qr-display-header">
-        <img src="/logo-vianntto.svg" alt="Vianntto" style={{ height: 40 }} />
-        <div>
-          <h1>CÓDIGOS QR</h1>
-          <p className="qr-display-org">{orgNombre}</p>
-        </div>
+      <div className="qr-display-brand">
+        <img src="/logo-vianntto.svg" alt="Vianntto" className="qr-display-logo" />
+        <p className="qr-display-brand-name">{orgNombre}</p>
       </div>
 
       <div className="qr-display-grid">
         {proyectos.map((proy) => (
           <div key={proy.id} className="qr-display-card">
-            <QRCodeCanvas value={qrUrl(organizacionActiva, proy.nombre)} size={200} includeMargin fgColor="#838B9B" />
-            <p className="qr-display-proyecto">{proy.nombre}</p>
-            <p className="qr-display-sub">Registro de asistencia</p>
+            <QRCodeCanvas value={qrUrl(organizacionActiva, proy.nombre)} size={180} includeMargin fgColor="#838B9B" />
+            <span className="qr-display-card-label">Registro</span>
+            <p className="qr-display-card-title">{proy.nombre}</p>
           </div>
         ))}
 
         {ultimaEncuesta && (
-          <div className="qr-display-card qr-display-card-survey">
-            <QRCodeCanvas value={surQrUrl(organizacionActiva, ultimaEncuesta.id, '')} size={200} includeMargin fgColor="#16a34a" />
-            <p className="qr-display-proyecto">ENCUESTA</p>
-            <p className="qr-display-sub">{ultimaEncuesta.preguntas?.length || 0} preguntas</p>
+          <div className="qr-display-card">
+            <QRCodeCanvas value={surQrUrl(organizacionActiva, ultimaEncuesta.id, '')} size={180} includeMargin fgColor="#838B9B" />
+            <span className="qr-display-card-label">Encuesta</span>
+            <p className="qr-display-card-title">{ultimaEncuesta.preguntas?.length || 0} preguntas</p>
           </div>
         )}
       </div>
