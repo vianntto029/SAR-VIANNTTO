@@ -177,12 +177,26 @@ export function AttendanceProvider({ children }) {
     return record
   }
 
+  async function limpiarRespuestasEncuesta(date) {
+    const snapshot = await get(ref(db, `organizaciones/${organizacionActiva}/respuestas_encuesta`))
+    const toRemove = []
+    snapshot.forEach(child => {
+      if (child.val().date === date) {
+        toRemove.push(child.key)
+      }
+    })
+    for (const key of toRemove) {
+      await remove(ref(db, `organizaciones/${organizacionActiva}/respuestas_encuesta/${key}`))
+    }
+  }
+
   return (
     <AttendanceContext.Provider value={{
       attendance, registerAttendance, resetAttendance,
       switchOrganizacion, organizacionActiva,
       proyectos, addProyecto, deleteProyecto,
-      encuestas, respuestasEncuesta, saveEncuesta, getEncuestaById, submitEncuestaResponse
+      encuestas, respuestasEncuesta, saveEncuesta, getEncuestaById, submitEncuestaResponse,
+      limpiarRespuestasEncuesta,
     }}>
       {children}
     </AttendanceContext.Provider>

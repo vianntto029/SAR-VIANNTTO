@@ -57,7 +57,7 @@ export default function AdminView() {
   const [restored, setRestored] = useState(false)
 
   const navigate = useNavigate()
-  const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, encuestas, saveEncuesta } = useAttendance()
+  const { attendance, resetAttendance, switchOrganizacion, organizacionActiva, proyectos, addProyecto, deleteProyecto, respuestasEncuesta, encuestas, saveEncuesta, limpiarRespuestasEncuesta } = useAttendance()
 
   const STORE_NS = `qr_${organizacionActiva}`
 
@@ -188,6 +188,15 @@ export default function AdminView() {
       setStatus(`Lista del ${selectedDate} reiniciada.`)
     } catch {
       setStatus('Error al reiniciar.')
+    }
+  }
+
+  async function handleLimpiarEncuestas() {
+    try {
+      await limpiarRespuestasEncuesta(selectedDate)
+      setStatus(`Respuestas de encuesta del ${selectedDate} eliminadas.`)
+    } catch {
+      setStatus('Error al limpiar respuestas.')
     }
   }
 
@@ -597,6 +606,10 @@ export default function AdminView() {
           <Trash2 size={18} />
           Reiniciar dia
         </button>
+        <button type="button" className="danger" onClick={handleLimpiarEncuestas} disabled={!encuestaDailyRows.length}>
+          <Trash2 size={18} />
+          Limpiar Encuestas
+        </button>
       </section>
 
       <section className="list-panel">
@@ -641,6 +654,23 @@ export default function AdminView() {
             </tbody>
           </table>
         </div>
+
+        {dailyRows.length > 0 && (
+        <div className="stats-row">
+          <div className="stat-card">
+            <span className="stat-value">{dailyRows.length}</span>
+            <span className="stat-label">PARTICIPANTES</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">{new Set(dailyRows.map(r => r.proyecto)).size}</span>
+            <span className="stat-label">PROYECTOS</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">{dailyRows.filter(r => r.departamento && r.departamento !== '-').length}</span>
+            <span className="stat-label">CON DEPARTAMENTO</span>
+          </div>
+        </div>
+        )}
       </section>
 
       <section className="list-panel" style={{ marginTop: 22 }}>
@@ -689,6 +719,23 @@ export default function AdminView() {
             </tbody>
           </table>
         </div>
+
+        {encuestaDailyRows.length > 0 && (
+        <div className="stats-row">
+          <div className="stat-card">
+            <span className="stat-value">{encuestaDailyRows.length}</span>
+            <span className="stat-label">RESPUESTAS</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">{new Set(encuestaDailyRows.map(r => r.proyecto)).size}</span>
+            <span className="stat-label">PROYECTOS</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-value">{new Set(encuestaDailyRows.map(r => r.encuestaId)).size}</span>
+            <span className="stat-label">ENCUESTAS</span>
+          </div>
+        </div>
+        )}
         <div className="status-card">{status}</div>
       </section>
     </main>

@@ -487,17 +487,17 @@
   padding: 14px;
   font-size: 15px;
   font-weight: 800;
-  background: #bcb2ae;
+  background: #838B9B;
   color: white;
-  border-color: #bcb2ae;
+  border-color: #838B9B;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: 'Sora', sans-serif;
 }
 
 .login-form button:hover {
-  background: #ccc0bc;
+  background: #9099a3;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(188, 178, 174, 0.35);
+  box-shadow: 0 8px 24px rgba(131, 139, 155, 0.35);
 }
 
 .login-form .status {
@@ -550,9 +550,11 @@
   background: #EBEDEF;
   border: 1px solid #C4C9CE;
   border-radius: 10px;
-  color: #bcb2ae;
+  color: #838B9B;
   font-size: 14px;
   font-weight: 800;
+  font-family: 'Satoshi', sans-serif;
+  text-transform: uppercase;
   transition: box-shadow 0.3s ease;
 }
 
@@ -579,7 +581,9 @@
 
 .admin-header h1 {
   font-size: 24px;
-  color: #bcb2ae;
+  color: #838B9B;
+  text-transform: uppercase;
+  font-family: 'Satoshi', sans-serif;
 }
 
 .logout-btn {
@@ -669,6 +673,71 @@
   .success-card-glass h1 { font-size: 22px; }
 
   .success-name-glass { font-size: 18px; }
+}
+
+/* === Encuesta panel titles === */
+.encuesta-copy h2 {
+  text-transform: uppercase;
+  color: #838B9B;
+  font-family: 'Satoshi', sans-serif;
+}
+
+/* === Live stats row === */
+.stats-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 120px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid #C4C9CE;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(131, 139, 155, 0.15);
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #838B9B;
+  font-family: 'Satoshi', sans-serif;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #838B9B;
+  font-family: 'Satoshi', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 480px) {
+  .stats-row { gap: 8px; }
+  .stat-card { padding: 12px 14px; min-width: 80px; }
+  .stat-value { font-size: 22px; }
+}
+
+/* === Hero panel headings uppercase === */
+.hero-copy h1 {
+  text-transform: uppercase;
+  color: #EBEDEF;
+  font-family: 'Satoshi', sans-serif;
 }
 
 

@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
-const BEIGE = '#CDB3A7'
-const GRAY = '#A6A6A6'
+const GRAY = '#838B9B'
 
 const FINAL_COLOR = {
-  'v-left': BEIGE, 'v-right': BEIGE, 'v-main': BEIGE,
+  'v-left': GRAY, 'v-right': GRAY, 'v-main': GRAY,
   'letter-i': GRAY, 'letter-a': GRAY, 'letter-a-tip': GRAY,
   'letter-n1': GRAY, 'letter-n2': GRAY,
   'letter-t1': GRAY, 'letter-t2': GRAY, 'letter-o': GRAY,
@@ -151,47 +150,49 @@ export default function ViannttoSplash({ onComplete }) {
   const [fading, setFading] = useState(false)
 
   useEffect(() => {
+    doneRef.current = false
+
     try {
       const svg = svgRef.current
-      if (!svg) return
+      if (svg) {
+        const allIds = Object.keys(FINAL_COLOR)
+        allIds.forEach(id => {
+          const el = svg.querySelector(`#${id}`)
+          if (el) {
+            el.getAnimations().forEach(a => a.cancel())
+            el.style.cssText = ''
+            el.setAttribute('fill', 'none')
+            el.setAttribute('stroke', 'none')
+          }
+        })
+        svg.getBoundingClientRect()
+        allIds.forEach(id => {
+          const el = svg.querySelector(`#${id}`)
+          if (el) el.setAttribute('pathLength', '1')
+        })
 
-      const allIds = Object.keys(FINAL_COLOR)
-      allIds.forEach(id => {
-        const el = svg.querySelector(`#${id}`)
-        if (el) {
-          el.getAnimations().forEach(a => a.cancel())
-          el.style.cssText = ''
-          el.setAttribute('fill', 'none')
-          el.setAttribute('stroke', 'none')
-        }
-      })
-      svg.getBoundingClientRect()
-      allIds.forEach(id => {
-        const el = svg.querySelector(`#${id}`)
-        if (el) el.setAttribute('pathLength', '1')
-      })
+        DRAW_SEQ.forEach(s => {
+          const el = svg.querySelector(`#${s.id}`)
+          if (!el) return
+          const color = FINAL_COLOR[s.id]
+          if (s.type === 'detail') {
+            animateDetail(el, { delay: s.delay, dur: s.dur, color })
+          } else {
+            animateTraceAndFill(el, 1, { delay: s.delay, dur: s.dur, color })
+          }
+        })
 
-      DRAW_SEQ.forEach(s => {
-        const el = svg.querySelector(`#${s.id}`)
-        if (!el) return
-        const color = FINAL_COLOR[s.id]
-        if (s.type === 'detail') {
-          animateDetail(el, { delay: s.delay, dur: s.dur, color })
-        } else {
-          animateTraceAndFill(el, 1, { delay: s.delay, dur: s.dur, color })
-        }
-      })
-
-      UNDRAW_SEQ.forEach(s => {
-        const el = svg.querySelector(`#${s.id}`)
-        if (!el) return
-        const color = FINAL_COLOR[s.id]
-        if (s.type === 'detail') {
-          animateDetailUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
-        } else {
-          animateUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
-        }
-      })
+        UNDRAW_SEQ.forEach(s => {
+          const el = svg.querySelector(`#${s.id}`)
+          if (!el) return
+          const color = FINAL_COLOR[s.id]
+          if (s.type === 'detail') {
+            animateDetailUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
+          } else {
+            animateUndraw(el, { delay: s.delay, dur: s.dur, color }, UNDRAW_START)
+          }
+        })
+      }
     } catch (e) {
       console.warn('ViannttoSplash animation error:', e)
     }
@@ -206,10 +207,17 @@ export default function ViannttoSplash({ onComplete }) {
       }
     }, completeMs)
 
+    const maxTimer = setTimeout(() => {
+      if (!doneRef.current) {
+        doneRef.current = true
+        onComplete?.()
+      }
+    }, 6000)
+
     return () => {
       clearTimeout(fadeTimer)
       clearTimeout(compTimer)
-      doneRef.current = true
+      clearTimeout(maxTimer)
     }
   }, [onComplete])
 

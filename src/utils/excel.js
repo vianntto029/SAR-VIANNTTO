@@ -102,6 +102,19 @@ export async function buildAsistenciaWorkbook(attendance, selectedDate) {
     ]
     ws.views = [{ state: 'frozen', ySplit: 3 }]
     ws.autoFilter = { from: 'A3', to: `I${rows.length + 2}` }
+
+    const statRow = rows.length + 4
+    ws.mergeCells(`A${statRow}:I${statRow}`)
+    ws.getCell(`A${statRow}`).value = 'ESTADÍSTICAS'
+    styleTitleCell(ws.getCell(`A${statRow}`))
+    ws.getRow(statRow).height = 26
+
+    const s1 = ws.addRow(['PARTICIPANTES', rows.length])
+    s1.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 0) } })
+    const s2 = ws.addRow(['PROYECTOS', proyectos.length])
+    s2.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 1) } })
+    const s3 = ws.addRow(['CON DEPARTAMENTO', rows.filter(r => r.departamento && r.departamento !== '-').length])
+    s3.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 2) } })
   })
 
   const buffer = await workbook.xlsx.writeBuffer()
@@ -184,6 +197,21 @@ export async function buildEncuestaWorkbook(respuestasEncuesta, selectedDate, en
     ]
     ws.views = [{ state: 'frozen', ySplit: 3 }]
     ws.autoFilter = { from: 'A3', to: `${colLetter}${rows.length + 2}` }
+
+    const statRow = rows.length + 4
+    ws.mergeCells(`A${statRow}:${colLetter}${statRow}`)
+    ws.getCell(`A${statRow}`).value = 'ESTADÍSTICAS'
+    styleTitleCell(ws.getCell(`A${statRow}`))
+    ws.getRow(statRow).height = 26
+
+    const uniqProys = [...new Set(rows.map(r => r.proyecto))]
+    const uniqEncIds = [...new Set(rows.map(r => r.encuestaId))]
+    const s1 = ws.addRow(['RESPUESTAS', rows.length])
+    s1.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 0) } })
+    const s2 = ws.addRow(['PROYECTOS', uniqProys.length])
+    s2.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 1) } })
+    const s3 = ws.addRow(['ENCUESTAS', uniqEncIds.length])
+    s3.eachCell((cell, col) => { if (col === 1) { cell.font = { bold: true, color: { argb: ACCENT }, size: 11, name: 'Calibri' } } else { styleDataCell(cell, 2) } })
   })
 
   const buffer = await workbook.xlsx.writeBuffer()

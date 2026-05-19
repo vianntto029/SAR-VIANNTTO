@@ -24,7 +24,7 @@ export default function LoginView() {
     <main className="login-view">
       <div className="login-glass">
         <div className="logo-header" style={{ textAlign: 'center', marginBottom: 8 }}>
-          <img src="/isotipo-vianntto.svg" alt="Vianntto" style={{ height: 52, display: 'inline' }} />
+          <img src="/logo-vianntto.svg" alt="Vianntto" style={{ height: 55, display: 'inline' }} />
         </div>
         <div className="login-lock-icon">
           <Lock size={24} />
