@@ -92,12 +92,14 @@ export default function StudentView() {
         </div>
       ) : (
         <div className={`student-form-container glass-fade-in ${showSuccess ? 'glass-scale-in' : ''}`}>
-          <div className="success-icon-glass"><Check size={48} /></div>
+          <div className="success-icon-glass"><Check size={40} /></div>
           <div className="success-check-circle" />
-          <h1>Registrado!</h1>
+          <h1>¡REGISTRO EXITOSO!</h1>
           <p className="success-name-glass">{registeredName}</p>
-          <p className="success-message-glass">Tu registro fue exitoso.</p>
-          <div className="success-badge-glass"><span className="success-label">Código</span><span className="success-code-glass">{code}</span></div>
+          <div className="success-code-row">
+            <span className="success-code-label">Código</span>
+            <span className="success-code-glass">{code}</span>
+          </div>
         </div>
       )}
     </main>

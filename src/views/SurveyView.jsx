@@ -155,11 +155,10 @@ export default function SurveyView() {
           </div>
         ) : (
           <div className={`success-card-glass ${showSuccess ? 'glass-scale-in' : ''}`}>
-            <div className="success-icon-glass"><Check size={48} /></div>
+            <div className="success-icon-glass"><Check size={40} /></div>
             <div className="success-check-circle" />
-            <h1>Gracias!</h1>
+            <h1>¡GRACIAS POR TU TIEMPO!</h1>
             <p className="success-name-glass">{participante}</p>
-            <p className="success-message-glass">Tus respuestas fueron enviadas exitosamente.</p>
           </div>
         )}
       </div>
