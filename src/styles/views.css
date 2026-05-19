@@ -766,6 +766,8 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  opacity: 0;
+  transform: translateY(-16px);
 }
 
 .qr-display-logo {
@@ -778,6 +780,16 @@
   color: #838B9B;
   font-weight: 500;
   letter-spacing: 0.3px;
+}
+
+.qr-display-mode-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #838B9B;
+  font-family: 'Satoshi', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 4px;
 }
 
 .qr-display-grid {
@@ -800,6 +812,26 @@
   box-shadow: 0 8px 30px rgba(131, 139, 155, 0.08);
   min-width: 240px;
   width: 240px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.qr-anim-in {
+  animation: qrFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes qrFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.qr-display-brand.qr-anim-in {
+  animation-name: qrFadeDown;
+}
+
+@keyframes qrFadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .qr-display-card-label {

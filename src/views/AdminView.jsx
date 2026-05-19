@@ -610,9 +610,13 @@ export default function AdminView() {
           <Trash2 size={18} />
           Limpiar Encuestas
         </button>
-        <button type="button" className="qr-display-btn" onClick={() => window.open('/qr-display', '_blank')}>
+        <button type="button" className="qr-display-btn" onClick={() => window.open('/qr-display?tipo=asistencia', '_blank')}>
           <ExternalLink size={18} />
-          Pantalla QR
+          QR Asistencia
+        </button>
+        <button type="button" className="qr-display-btn" onClick={() => window.open('/qr-display?tipo=encuesta', '_blank')}>
+          <ExternalLink size={18} />
+          QR Encuesta
         </button>
       </section>
 
