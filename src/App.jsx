@@ -4,6 +4,7 @@ import StudentView from './views/StudentView'
 import AdminView from './views/AdminView'
 import LoginView from './views/LoginView'
 import SurveyView from './views/SurveyView'
+import QRDisplayView from './views/QRDisplayView'
 
 function Layout() {
   return (
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/encuesta', element: <SurveyView /> },
       { path: '/login', element: <LoginView /> },
       { path: '/admin', element: <AdminView /> },
+      { path: '/qr-display', element: <QRDisplayView /> },
     ],
   },
 ])

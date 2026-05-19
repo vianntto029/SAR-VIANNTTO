@@ -610,6 +610,10 @@ export default function AdminView() {
           <Trash2 size={18} />
           Limpiar Encuestas
         </button>
+        <button type="button" className="qr-display-btn" onClick={() => window.open('/qr-display', '_blank')}>
+          <ExternalLink size={18} />
+          Pantalla QR
+        </button>
       </section>
 
       <section className="list-panel">
